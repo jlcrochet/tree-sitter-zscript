@@ -1,0 +1,328 @@
+================================================================================
+If statement
+================================================================================
+
+class Test {
+    void Foo() {
+        if (x > 0) {
+            DoSomething();
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (if_statement
+          condition: (binary_expression
+            left: (identifier)
+            right: (number_literal))
+          consequence: (compound_statement
+            (expression_statement
+              (call_expression
+                function: (identifier)
+                arguments: (argument_list)))))))))
+
+================================================================================
+If-else statement
+================================================================================
+
+class Test {
+    void Foo() {
+        if (x > 0) {
+            A();
+        } else {
+            B();
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (if_statement
+          condition: (binary_expression
+            left: (identifier)
+            right: (number_literal))
+          consequence: (compound_statement
+            (expression_statement
+              (call_expression
+                function: (identifier)
+                arguments: (argument_list))))
+          alternative: (else_clause
+            (compound_statement
+              (expression_statement
+                (call_expression
+                  function: (identifier)
+                  arguments: (argument_list))))))))))
+
+================================================================================
+While loop
+================================================================================
+
+class Test {
+    void Foo() {
+        while (count > 0) {
+            count--;
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (while_statement
+          condition: (binary_expression
+            left: (identifier)
+            right: (number_literal))
+          body: (compound_statement
+            (expression_statement
+              (update_expression
+                argument: (identifier)))))))))
+
+================================================================================
+For loop
+================================================================================
+
+class Test {
+    void Foo() {
+        for (int i = 0; i < 10; i++) {
+            DoSomething(i);
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (for_statement
+          initializer: (declaration
+            type: (primitive_type)
+            declarator: (init_declarator
+              declarator: (identifier)
+              value: (number_literal)))
+          condition: (binary_expression
+            left: (identifier)
+            right: (number_literal))
+          update: (update_expression
+            argument: (identifier))
+          body: (compound_statement
+            (expression_statement
+              (call_expression
+                function: (identifier)
+                arguments: (argument_list
+                  (identifier))))))))))
+
+================================================================================
+Do-while loop
+================================================================================
+
+class Test {
+    void Foo() {
+        do {
+            x++;
+        } while (x < 10);
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (do_statement
+          body: (compound_statement
+            (expression_statement
+              (update_expression
+                argument: (identifier))))
+          condition: (binary_expression
+            left: (identifier)
+            right: (number_literal)))))))
+
+================================================================================
+Switch statement
+================================================================================
+
+class Test {
+    void Foo() {
+        switch (type) {
+            case 1:
+                A();
+                break;
+            case 2:
+                B();
+                break;
+            default:
+                C();
+                break;
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (switch_statement
+          condition: (identifier)
+          body: (compound_statement
+            (case_statement
+              value: (number_literal)
+              (expression_statement
+                (call_expression
+                  function: (identifier)
+                  arguments: (argument_list)))
+              (break_statement))
+            (case_statement
+              value: (number_literal)
+              (expression_statement
+                (call_expression
+                  function: (identifier)
+                  arguments: (argument_list)))
+              (break_statement))
+            (case_statement
+              (expression_statement
+                (call_expression
+                  function: (identifier)
+                  arguments: (argument_list)))
+              (break_statement))))))))
+
+================================================================================
+Foreach statement
+================================================================================
+
+class Test {
+    void Foo() {
+        foreach (item : items) {
+            ProcessItem(item);
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (foreach_statement
+          variable: (identifier)
+          collection: (identifier)
+          body: (compound_statement
+            (expression_statement
+              (call_expression
+                function: (identifier)
+                arguments: (argument_list
+                  (identifier))))))))))
+
+================================================================================
+Return statement
+================================================================================
+
+class Test {
+    int Foo() {
+        return 42;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (return_statement
+          (number_literal))))))
+
+================================================================================
+Break and continue
+================================================================================
+
+class Test {
+    void Foo() {
+        for (int i = 0; i < 10; i++) {
+            if (i == 5) continue;
+            if (i == 8) break;
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (for_statement
+          initializer: (declaration
+            type: (primitive_type)
+            declarator: (init_declarator
+              declarator: (identifier)
+              value: (number_literal)))
+          condition: (binary_expression
+            left: (identifier)
+            right: (number_literal))
+          update: (update_expression
+            argument: (identifier))
+          body: (compound_statement
+            (if_statement
+              condition: (binary_expression
+                left: (identifier)
+                right: (number_literal))
+              consequence: (continue_statement))
+            (if_statement
+              condition: (binary_expression
+                left: (identifier)
+                right: (number_literal))
+              consequence: (break_statement))))))))

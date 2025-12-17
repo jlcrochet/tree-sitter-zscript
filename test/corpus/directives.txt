@@ -1,0 +1,64 @@
+================================================================================
+Include directive with hash
+================================================================================
+
+#include "zscript/myfile.zs"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (include_directive
+    path: (string_literal
+      (string_content))))
+
+================================================================================
+Include directive without hash
+================================================================================
+
+include "zscript/otherfile.zs"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (include_directive
+    path: (string_literal
+      (string_content))))
+
+================================================================================
+Version directive
+================================================================================
+
+version "4.10"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (version_directive
+    version: (string_literal
+      (string_content))))
+
+================================================================================
+Multiple directives
+================================================================================
+
+version "4.10"
+#include "base.zs"
+#include "actors.zs"
+
+class Test {
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (version_directive
+    version: (string_literal
+      (string_content)))
+  (include_directive
+    path: (string_literal
+      (string_content)))
+  (include_directive
+    path: (string_literal
+      (string_content)))
+  (class_definition
+    name: (type_identifier)))

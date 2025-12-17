@@ -1,0 +1,314 @@
+================================================================================
+Random expression
+================================================================================
+
+class Test {
+    void Foo() {
+        int x = random(0, 10);
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (declaration
+          type: (primitive_type)
+          declarator: (init_declarator
+            declarator: (identifier)
+            value: (random_expression
+              (number_literal)
+              (number_literal))))))))
+
+================================================================================
+Random expression with ID
+================================================================================
+
+class Test {
+    void Foo() {
+        int x = random[myrand](1, 6);
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (declaration
+          type: (primitive_type)
+          declarator: (init_declarator
+            declarator: (identifier)
+            value: (random_expression
+              id: (identifier)
+              (number_literal)
+              (number_literal))))))))
+
+================================================================================
+Frandom expression
+================================================================================
+
+class Test {
+    void Foo() {
+        double x = frandom(0.0, 1.0);
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (declaration
+          type: (primitive_type)
+          declarator: (init_declarator
+            declarator: (identifier)
+            value: (random_expression
+              (number_literal)
+              (number_literal))))))))
+
+================================================================================
+String concatenation
+================================================================================
+
+class Test {
+    void Foo() {
+        string msg = "Hello" .. " " .. "World";
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (declaration
+          type: (primitive_type)
+          declarator: (init_declarator
+            declarator: (identifier)
+            value: (binary_expression
+              left: (binary_expression
+                left: (string_literal
+                  (string_content))
+                right: (string_literal
+                  (string_content)))
+              right: (string_literal
+                (string_content)))))))))
+
+================================================================================
+Case insensitive string comparison
+================================================================================
+
+class Test {
+    void Foo() {
+        if (name ~== "test") {}
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (if_statement
+          condition: (binary_expression
+            left: (identifier)
+            right: (string_literal
+              (string_content)))
+          consequence: (compound_statement))))))
+
+================================================================================
+Is expression (type check)
+================================================================================
+
+class Test {
+    void Foo(Actor other) {
+        if (other is "PlayerPawn") {}
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (type_identifier)
+          declarator: (identifier)))
+      body: (compound_statement
+        (if_statement
+          condition: (binary_expression
+            left: (identifier)
+            right: (string_literal
+              (string_content)))
+          consequence: (compound_statement))))))
+
+================================================================================
+Self and invoker
+================================================================================
+
+class Test : Actor {
+    void Foo() {
+        self.angle = invoker.angle;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (expression_statement
+          (assignment_expression
+            left: (field_expression
+              argument: (self_expression)
+              field: (field_identifier))
+            right: (field_expression
+              argument: (invoker_expression)
+              field: (field_identifier))))))))
+
+================================================================================
+Let keyword for type inference
+================================================================================
+
+class Test {
+    void Foo() {
+        let x = GetActor();
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (declaration
+          type: (primitive_type)
+          declarator: (init_declarator
+            declarator: (identifier)
+            value: (call_expression
+              function: (identifier)
+              arguments: (argument_list))))))))
+
+================================================================================
+Ternary with missing middle (Elvis operator style)
+================================================================================
+
+class Test {
+    void Foo() {
+        int x = value ? : 10;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (declaration
+          type: (primitive_type)
+          declarator: (init_declarator
+            declarator: (identifier)
+            value: (conditional_expression
+              condition: (identifier)
+              alternative: (number_literal))))))))
+
+================================================================================
+Name literal
+================================================================================
+
+class Test {
+    void Foo() {
+        Name n = 'MyName';
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (declaration
+          type: (primitive_type)
+          declarator: (init_declarator
+            declarator: (identifier)
+            value: (name_literal)))))))
+
+================================================================================
+ResolveState expression
+================================================================================
+
+class Test : Actor {
+    void Foo() {
+        return resolvestate("Spawn");
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (return_statement
+          (state_expression
+            state: (string_literal
+              (string_content))))))))

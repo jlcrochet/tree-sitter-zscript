@@ -1,0 +1,289 @@
+================================================================================
+Simple states block
+================================================================================
+
+class Test : Actor {
+    States {
+        Spawn:
+            TROO A 10
+            Loop
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (states_block
+      (state_label
+        name: (state_label_name
+          (identifier)))
+      (state_line
+        sprite: (state_sprite)
+        frames: (state_frames)
+        duration: (number_literal))
+      (state_flow))))
+
+================================================================================
+States with multiple labels
+================================================================================
+
+class Test : Actor {
+    States {
+        Spawn:
+            TROO A 10
+            Goto See
+        See:
+            TROO AABBCC 4
+            Loop
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (states_block
+      (state_label
+        name: (state_label_name
+          (identifier)))
+      (state_line
+        sprite: (state_sprite)
+        frames: (state_frames)
+        duration: (number_literal))
+      (state_flow
+        target: (state_goto_target
+          (state_label_name
+            (identifier))))
+      (state_label
+        name: (state_label_name
+          (identifier)))
+      (state_line
+        sprite: (state_sprite)
+        frames: (state_frames)
+        duration: (number_literal))
+      (state_flow))))
+
+================================================================================
+State with BRIGHT modifier
+================================================================================
+
+class Test : Actor {
+    States {
+        Fire:
+            PISG A 1 Bright
+            Stop
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (states_block
+      (state_label
+        name: (state_label_name
+          (identifier)))
+      (state_line
+        sprite: (state_sprite)
+        frames: (state_frames)
+        duration: (number_literal)
+        (state_modifiers
+          (state_modifier)))
+      (state_flow))))
+
+================================================================================
+State with function call
+================================================================================
+
+class Test : Actor {
+    States {
+        Missile:
+            TROO EF 8 A_FaceTarget
+            TROO G 6 A_TroopAttack
+            Goto See
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (states_block
+      (state_label
+        name: (state_label_name
+          (identifier)))
+      (state_line
+        sprite: (state_sprite)
+        frames: (state_frames)
+        duration: (number_literal)
+        (state_action
+          (state_action_call
+            function: (identifier))))
+      (state_line
+        sprite: (state_sprite)
+        frames: (state_frames)
+        duration: (number_literal)
+        (state_action
+          (state_action_call
+            function: (identifier))))
+      (state_flow
+        target: (state_goto_target
+          (state_label_name
+            (identifier)))))))
+
+================================================================================
+State with anonymous function
+================================================================================
+
+class Test : Actor {
+    States {
+        Spawn:
+            TROO A 1 {
+                A_Chase();
+            }
+            Loop
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (states_block
+      (state_label
+        name: (state_label_name
+          (identifier)))
+      (state_line
+        sprite: (state_sprite)
+        frames: (state_frames)
+        duration: (number_literal)
+        (state_action
+          (compound_statement
+            (expression_statement
+              (call_expression
+                function: (identifier)
+                arguments: (argument_list))))))
+      (state_flow))))
+
+================================================================================
+Dotted state label
+================================================================================
+
+class Test : Actor {
+    States {
+        Death.Fire:
+            TROO H 5
+            Stop
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (states_block
+      (state_label
+        name: (state_label_name
+          (identifier)
+          (identifier)))
+      (state_line
+        sprite: (state_sprite)
+        frames: (state_frames)
+        duration: (number_literal))
+      (state_flow))))
+
+================================================================================
+Goto with offset
+================================================================================
+
+class Test : Actor {
+    States {
+        Pain:
+            TROO H 2
+            TROO H 2 A_Pain
+            Goto See+1
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (states_block
+      (state_label
+        name: (state_label_name
+          (identifier)))
+      (state_line
+        sprite: (state_sprite)
+        frames: (state_frames)
+        duration: (number_literal))
+      (state_line
+        sprite: (state_sprite)
+        frames: (state_frames)
+        duration: (number_literal)
+        (state_action
+          (state_action_call
+            function: (identifier))))
+      (state_flow
+        target: (state_goto_target
+          (state_label_name
+            (identifier))
+          (number_literal))))))
+
+================================================================================
+State with NoDelay
+================================================================================
+
+class Test : Actor {
+    States {
+        Spawn:
+            TROO A 0 NoDelay
+            TROO A 10
+            Loop
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (states_block
+      (state_label
+        name: (state_label_name
+          (identifier)))
+      (state_line
+        sprite: (state_sprite)
+        frames: (state_frames)
+        duration: (number_literal)
+        (state_modifiers
+          (state_modifier)))
+      (state_line
+        sprite: (state_sprite)
+        frames: (state_frames)
+        duration: (number_literal))
+      (state_flow))))

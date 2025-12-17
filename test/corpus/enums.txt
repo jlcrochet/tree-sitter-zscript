@@ -1,0 +1,141 @@
+================================================================================
+Simple enum
+================================================================================
+
+enum MyEnum {
+    VALUE_A,
+    VALUE_B,
+    VALUE_C
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (enum_definition
+    name: (type_identifier)
+    (enumerator_list
+      (enumerator
+        name: (identifier))
+      (enumerator
+        name: (identifier))
+      (enumerator
+        name: (identifier)))))
+
+================================================================================
+Enum with values
+================================================================================
+
+enum Flags {
+    FLAG_NONE = 0,
+    FLAG_A = 1,
+    FLAG_B = 2,
+    FLAG_ALL = 3
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (enum_definition
+    name: (type_identifier)
+    (enumerator_list
+      (enumerator
+        name: (identifier)
+        value: (number_literal))
+      (enumerator
+        name: (identifier)
+        value: (number_literal))
+      (enumerator
+        name: (identifier)
+        value: (number_literal))
+      (enumerator
+        name: (identifier)
+        value: (number_literal)))))
+
+================================================================================
+Enum with bit shifts
+================================================================================
+
+enum BitFlags {
+    BIT_1 = 1 << 0,
+    BIT_2 = 1 << 1,
+    BIT_3 = 1 << 2
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (enum_definition
+    name: (type_identifier)
+    (enumerator_list
+      (enumerator
+        name: (identifier)
+        value: (binary_expression
+          left: (number_literal)
+          right: (number_literal)))
+      (enumerator
+        name: (identifier)
+        value: (binary_expression
+          left: (number_literal)
+          right: (number_literal)))
+      (enumerator
+        name: (identifier)
+        value: (binary_expression
+          left: (number_literal)
+          right: (number_literal))))))
+
+================================================================================
+Enum inside class
+================================================================================
+
+class Test {
+    enum State {
+        IDLE,
+        RUNNING,
+        DEAD
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (enum_definition
+      name: (type_identifier)
+      (enumerator_list
+        (enumerator
+          name: (identifier))
+        (enumerator
+          name: (identifier))
+        (enumerator
+          name: (identifier))))))
+
+================================================================================
+Const definition
+================================================================================
+
+const MAX_HEALTH = 100;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (const_definition
+    name: (identifier)
+    value: (number_literal)))
+
+================================================================================
+Const inside class
+================================================================================
+
+class Test {
+    const DEFAULT_SPEED = 10.5;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (const_definition
+      name: (identifier)
+      value: (number_literal))))

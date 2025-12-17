@@ -1,0 +1,162 @@
+================================================================================
+Primitive types
+================================================================================
+
+class Test {
+    void foo;
+    bool flag;
+    int count;
+    uint ucount;
+    float fval;
+    double dval;
+    string str;
+    name n;
+    sound snd;
+    color col;
+    vector2 v2;
+    vector3 v3;
+    state st;
+    statelabel sl;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))))
+
+================================================================================
+Array type
+================================================================================
+
+class Test {
+    Array<int> numbers;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      type: (array_type
+        element: (primitive_type))
+      declarator: (identifier))))
+
+================================================================================
+Map type
+================================================================================
+
+class Test {
+    Map<string, int> lookup;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      type: (map_type
+        key: (primitive_type)
+        value: (primitive_type))
+      declarator: (identifier))))
+
+================================================================================
+Class type
+================================================================================
+
+class Test {
+    class<Actor> actorClass;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      type: (class_type
+        (type_identifier))
+      declarator: (identifier))))
+
+================================================================================
+Readonly type
+================================================================================
+
+class Test {
+    readonly<Actor> readonlyActor;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      type: (readonly_type
+        type: (type_identifier))
+      declarator: (identifier))))
+
+================================================================================
+User defined type
+================================================================================
+
+class Test {
+    Actor target;
+    PlayerPawn player;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      type: (type_identifier)
+      declarator: (identifier))
+    (field_declaration
+      type: (type_identifier)
+      declarator: (identifier))))

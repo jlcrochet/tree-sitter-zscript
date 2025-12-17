@@ -1,0 +1,193 @@
+================================================================================
+Simple method
+================================================================================
+
+class Test {
+    void DoSomething() {
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement))))
+
+================================================================================
+Method with return type
+================================================================================
+
+class Test {
+    int GetValue() {
+        return 42;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (return_statement
+          (number_literal))))))
+
+================================================================================
+Override method
+================================================================================
+
+class Test : Actor {
+    override void Tick() {
+        super.Tick();
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (method_definition
+      (member_modifiers
+        (member_modifier))
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (expression_statement
+          (call_expression
+            function: (field_expression
+              argument: (super_expression)
+              field: (field_identifier))
+            arguments: (argument_list)))))))
+
+================================================================================
+Virtual method
+================================================================================
+
+class Test {
+    virtual void OnDeath() {
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      (member_modifiers
+        (member_modifier))
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement))))
+
+================================================================================
+Static method
+================================================================================
+
+class Math {
+    static double Lerp(double a, double b, double t) {
+        return a + (b - a) * t;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      (member_modifiers
+        (member_modifier))
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier)))
+      body: (compound_statement
+        (return_statement
+          (binary_expression
+            left: (identifier)
+            right: (binary_expression
+              left: (parenthesized_expression
+                (binary_expression
+                  left: (identifier)
+                  right: (identifier)))
+              right: (identifier))))))))
+
+================================================================================
+Method with multiple modifiers
+================================================================================
+
+class Test {
+    clearscope static double GetDist() {
+        return 0;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      (member_modifiers
+        (member_modifier)
+        (member_modifier))
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (return_statement
+          (number_literal))))))
+
+================================================================================
+Action method
+================================================================================
+
+class Test : Actor {
+    action void A_Fire() {
+        A_SpawnProjectile("Fireball");
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (method_definition
+      (member_modifiers
+        (member_modifier))
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list
+              (string_literal
+                (string_content)))))))))

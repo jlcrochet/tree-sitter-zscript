@@ -1,0 +1,193 @@
+================================================================================
+Simple field declaration
+================================================================================
+
+class Test {
+    int value;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))))
+
+================================================================================
+Multiple fields
+================================================================================
+
+class Test {
+    int x, y, z;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      declarator: (identifier)
+      declarator: (identifier))))
+
+================================================================================
+Private field
+================================================================================
+
+class Test {
+    private int secret;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      (member_modifiers
+        (member_modifier))
+      type: (primitive_type)
+      declarator: (identifier))))
+
+================================================================================
+Protected field
+================================================================================
+
+class Test {
+    protected Actor target;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      (member_modifiers
+        (member_modifier))
+      type: (type_identifier)
+      declarator: (identifier))))
+
+================================================================================
+Meta field
+================================================================================
+
+class Test {
+    meta int SpawnID;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      (member_modifiers
+        (member_modifier))
+      type: (primitive_type)
+      declarator: (identifier))))
+
+================================================================================
+Transient field
+================================================================================
+
+class Test {
+    transient int tempValue;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      (member_modifiers
+        (member_modifier))
+      type: (primitive_type)
+      declarator: (identifier))))
+
+================================================================================
+Field with initialization
+================================================================================
+
+class Test {
+    int count = 10;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      type: (primitive_type)
+      declarator: (init_declarator
+        declarator: (identifier)
+        value: (number_literal)))))
+
+================================================================================
+Array field
+================================================================================
+
+class Test {
+    int values[10];
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      type: (primitive_type)
+      declarator: (array_declarator
+        declarator: (identifier)
+        size: (number_literal)))))
+
+================================================================================
+Property definition
+================================================================================
+
+class Test {
+    int maxHealth;
+    property MaxHealth : maxHealth;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    (property_definition
+      name: (identifier)
+      field: (identifier))))
+
+================================================================================
+Property definition with multiple fields
+================================================================================
+
+class Test {
+    int x, y;
+    property Position : x, y;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      declarator: (identifier))
+    (property_definition
+      name: (identifier)
+      field: (identifier)
+      field: (identifier))))

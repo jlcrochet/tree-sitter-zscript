@@ -1,0 +1,226 @@
+================================================================================
+Default block with properties
+================================================================================
+
+class Test : Actor {
+    Default {
+        Health 100;
+        Radius 20;
+        Height 56;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (default_block
+      (default_property
+        (property_assignment
+          property: (property_identifier
+            (identifier))
+          value: (number_literal)))
+      (default_property
+        (property_assignment
+          property: (property_identifier
+            (identifier))
+          value: (number_literal)))
+      (default_property
+        (property_assignment
+          property: (property_identifier
+            (identifier))
+          value: (number_literal))))))
+
+================================================================================
+Default with dotted properties
+================================================================================
+
+class Test : Weapon {
+    Default {
+        Weapon.SlotNumber 1;
+        Weapon.AmmoType "Clip";
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (default_block
+      (default_property
+        (property_assignment
+          property: (property_identifier
+            (identifier)
+            (identifier))
+          value: (number_literal)))
+      (default_property
+        (property_assignment
+          property: (property_identifier
+            (identifier)
+            (identifier))
+          value: (string_literal
+            (string_content)))))))
+
+================================================================================
+Default with positive flags
+================================================================================
+
+class Test : Actor {
+    Default {
+        +SOLID;
+        +SHOOTABLE;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (default_block
+      (default_property
+        (flag_statement
+          flag: (flag_name
+            (identifier))))
+      (default_property
+        (flag_statement
+          flag: (flag_name
+            (identifier)))))))
+
+================================================================================
+Default with negative flags
+================================================================================
+
+class Test : Actor {
+    Default {
+        -NOGRAVITY;
+        -NOBLOCKMAP;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (default_block
+      (default_property
+        (flag_statement
+          flag: (flag_name
+            (identifier))))
+      (default_property
+        (flag_statement
+          flag: (flag_name
+            (identifier)))))))
+
+================================================================================
+Default with mixed content
+================================================================================
+
+class Test : Actor {
+    Default {
+        Health 100;
+        +SOLID;
+        Radius 16;
+        -NOGRAVITY;
+        Speed 8;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (default_block
+      (default_property
+        (property_assignment
+          property: (property_identifier
+            (identifier))
+          value: (number_literal)))
+      (default_property
+        (flag_statement
+          flag: (flag_name
+            (identifier))))
+      (default_property
+        (property_assignment
+          property: (property_identifier
+            (identifier))
+          value: (number_literal)))
+      (default_property
+        (flag_statement
+          flag: (flag_name
+            (identifier))))
+      (default_property
+        (property_assignment
+          property: (property_identifier
+            (identifier))
+          value: (number_literal))))))
+
+================================================================================
+Default with string property
+================================================================================
+
+class Test : Actor {
+    Default {
+        Obituary "%o was killed by %k.";
+        Tag "Test Monster";
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (default_block
+      (default_property
+        (property_assignment
+          property: (property_identifier
+            (identifier))
+          value: (string_literal
+            (string_content))))
+      (default_property
+        (property_assignment
+          property: (property_identifier
+            (identifier))
+          value: (string_literal
+            (string_content)))))))
+
+================================================================================
+Default with dotted flag
+================================================================================
+
+class Test : Actor {
+    Default {
+        +INVENTORY.IGNORESKILL;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (default_block
+      (default_property
+        (flag_statement
+          flag: (flag_name
+            (identifier)
+            (identifier)))))))
