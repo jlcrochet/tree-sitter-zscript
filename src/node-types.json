@@ -1180,11 +1180,6 @@
     }
   },
   {
-    "type": "false",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "field_declaration",
     "named": true,
     "fields": {
@@ -1843,11 +1838,6 @@
         ]
       }
     }
-  },
-  {
-    "type": "null",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "parameter_declaration",
@@ -2725,11 +2715,6 @@
     }
   },
   {
-    "type": "true",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "type_member_expression",
     "named": true,
     "fields": {
@@ -2933,7 +2918,7 @@
     "named": false
   },
   {
-    "type": "#",
+    "type": "#include",
     "named": false
   },
   {
@@ -3223,7 +3208,7 @@
   },
   {
     "type": "false",
-    "named": false
+    "named": true
   },
   {
     "type": "fast",
@@ -3279,10 +3264,6 @@
   },
   {
     "type": "in",
-    "named": false
-  },
-  {
-    "type": "include",
     "named": false
   },
   {
@@ -3359,7 +3340,7 @@
   },
   {
     "type": "null",
-    "named": false
+    "named": true
   },
   {
     "type": "number_literal",
@@ -3511,7 +3492,7 @@
   },
   {
     "type": "true",
-    "named": false
+    "named": true
   },
   {
     "type": "type_identifier",

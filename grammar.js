@@ -83,15 +83,12 @@ module.exports = grammar({
     // =========================================================================
 
     include_directive: $ => seq(
-      choice(
-        seq('#', caseInsensitive('include')),
-        caseInsensitive('include'),
-      ),
+      icaseKeyword('#include'),
       field('path', $.string_literal),
     ),
 
     version_directive: $ => seq(
-      caseInsensitive('version'),
+      icaseKeyword('version'),
       field('version', $.string_literal),
     ),
 
@@ -101,7 +98,7 @@ module.exports = grammar({
 
     class_definition: $ => prec(1, seq(
       optional($.class_modifier),
-      caseInsensitive('class'),
+      icaseKeyword('class'),
       field('name', $._type_identifier),
       optional($.inheritance_specifier),
       optional($.class_flags),
@@ -111,8 +108,8 @@ module.exports = grammar({
     )),
 
     class_modifier: _ => choice(
-      caseInsensitive('extend'),
-      caseInsensitive('mixin'),
+      icaseKeyword('extend'),
+      icaseKeyword('mixin'),
     ),
 
     inheritance_specifier: $ => seq(
@@ -123,14 +120,14 @@ module.exports = grammar({
     class_flags: $ => repeat1($.class_flag),
 
     class_flag: $ => choice(
-      caseInsensitive('abstract'),
-      caseInsensitive('play'),
-      caseInsensitive('ui'),
-      caseInsensitive('clearscope'),
-      caseInsensitive('native'),
-      caseInsensitive('replaces'),
-      seq(caseInsensitive('replaces'), $._type_identifier),
-      seq(caseInsensitive('version'), '(', $.string_literal, ')'),
+      icaseKeyword('abstract'),
+      icaseKeyword('play'),
+      icaseKeyword('ui'),
+      icaseKeyword('clearscope'),
+      icaseKeyword('native'),
+      icaseKeyword('replaces'),
+      seq(icaseKeyword('replaces'), $._type_identifier),
+      seq(icaseKeyword('version'), '(', $.string_literal, ')'),
     ),
 
     // =========================================================================
@@ -138,8 +135,8 @@ module.exports = grammar({
     // =========================================================================
 
     struct_definition: $ => seq(
-      optional(caseInsensitive('extend')),
-      caseInsensitive('struct'),
+      optional(icaseKeyword('extend')),
+      icaseKeyword('struct'),
       field('name', $._type_identifier),
       optional($.struct_flags),
       '{',
@@ -151,11 +148,11 @@ module.exports = grammar({
     struct_flags: $ => repeat1($.struct_flag),
 
     struct_flag: $ => choice(
-      caseInsensitive('play'),
-      caseInsensitive('ui'),
-      caseInsensitive('clearscope'),
-      caseInsensitive('native'),
-      seq(caseInsensitive('version'), '(', $.string_literal, ')'),
+      icaseKeyword('play'),
+      icaseKeyword('ui'),
+      icaseKeyword('clearscope'),
+      icaseKeyword('native'),
+      seq(icaseKeyword('version'), '(', $.string_literal, ')'),
     ),
 
     _struct_body_item: $ => choice(
@@ -170,7 +167,7 @@ module.exports = grammar({
     // =========================================================================
 
     enum_definition: $ => seq(
-      caseInsensitive('enum'),
+      icaseKeyword('enum'),
       field('name', $._type_identifier),
       optional($.enum_base_type),
       '{',
@@ -200,7 +197,7 @@ module.exports = grammar({
     // =========================================================================
 
     const_definition: $ => prec(1, seq(
-      caseInsensitive('const'),
+      icaseKeyword('const'),
       field('name', $.identifier),
       '=',
       field('value', $.expression),
@@ -238,25 +235,25 @@ module.exports = grammar({
     member_modifiers: $ => prec.left(repeat1($.member_modifier)),
 
     member_modifier: $ => choice(
-      caseInsensitive('native'),
-      caseInsensitive('meta'),
-      caseInsensitive('transient'),
-      caseInsensitive('readonly'),
-      caseInsensitive('private'),
-      caseInsensitive('protected'),
-      caseInsensitive('deprecated'),
-      caseInsensitive('internal'),
-      caseInsensitive('latent'),
-      caseInsensitive('final'),
-      caseInsensitive('static'),
-      caseInsensitive('play'),
-      caseInsensitive('ui'),
-      caseInsensitive('clearscope'),
-      caseInsensitive('action'),
-      caseInsensitive('override'),
-      caseInsensitive('virtual'),
-      caseInsensitive('vararg'),
-      seq(caseInsensitive('version'), '(', $.string_literal, ')'),
+      icaseKeyword('native'),
+      icaseKeyword('meta'),
+      icaseKeyword('transient'),
+      icaseKeyword('readonly'),
+      icaseKeyword('private'),
+      icaseKeyword('protected'),
+      icaseKeyword('deprecated'),
+      icaseKeyword('internal'),
+      icaseKeyword('latent'),
+      icaseKeyword('final'),
+      icaseKeyword('static'),
+      icaseKeyword('play'),
+      icaseKeyword('ui'),
+      icaseKeyword('clearscope'),
+      icaseKeyword('action'),
+      icaseKeyword('override'),
+      icaseKeyword('virtual'),
+      icaseKeyword('vararg'),
+      seq(icaseKeyword('version'), '(', $.string_literal, ')'),
       seq('(', commaSep($.identifier), ')'), // action qualifiers like (actor caller)
     ),
 
@@ -276,14 +273,14 @@ module.exports = grammar({
       ),
     ),
 
-    const_qualifier: _ => caseInsensitive('const'),
+    const_qualifier: _ => icaseKeyword('const'),
 
     // =========================================================================
     // Property and Flag definitions
     // =========================================================================
 
     property_definition: $ => seq(
-      caseInsensitive('property'),
+      icaseKeyword('property'),
       field('name', $.identifier),
       ':',
       commaSep1(field('field', $.identifier)),
@@ -291,7 +288,7 @@ module.exports = grammar({
     ),
 
     flag_definition: $ => seq(
-      caseInsensitive('flagdef'),
+      icaseKeyword('flagdef'),
       field('name', $.identifier),
       ':',
       field('field', $.identifier),
@@ -305,7 +302,7 @@ module.exports = grammar({
     // =========================================================================
 
     mixin_statement: $ => seq(
-      caseInsensitive('mixin'),
+      icaseKeyword('mixin'),
       $._type_identifier,
       ';',
     ),
@@ -315,8 +312,8 @@ module.exports = grammar({
     // =========================================================================
 
     static_const_array: $ => seq(
-      caseInsensitive('static'),
-      caseInsensitive('const'),
+      icaseKeyword('static'),
+      icaseKeyword('const'),
       field('type', $.type_specifier),
       field('name', $.identifier),
       '[',
@@ -331,7 +328,7 @@ module.exports = grammar({
     // =========================================================================
 
     default_block: $ => seq(
-      caseInsensitive('default'),
+      icaseKeyword('default'),
       '{',
       repeat($.default_property),
       '}',
@@ -369,7 +366,7 @@ module.exports = grammar({
     // =========================================================================
 
     states_block: $ => seq(
-      caseInsensitive('states'),
+      icaseKeyword('states'),
       optional($.states_options),
       '{',
       repeat($._states_body_item),
@@ -425,13 +422,13 @@ module.exports = grammar({
     state_modifiers: $ => repeat1($.state_modifier),
 
     state_modifier: $ => choice(
-      caseInsensitive('bright'),
-      caseInsensitive('fast'),
-      caseInsensitive('slow'),
-      caseInsensitive('nodelay'),
-      caseInsensitive('canraise'),
-      seq(caseInsensitive('light'), '(', commaSep1($.string_literal), ')'),
-      seq(caseInsensitive('offset'), '(', $.expression, ',', $.expression, ')'),
+      icaseKeyword('bright'),
+      icaseKeyword('fast'),
+      icaseKeyword('slow'),
+      icaseKeyword('nodelay'),
+      icaseKeyword('canraise'),
+      seq(icaseKeyword('light'), '(', commaSep1($.string_literal), ')'),
+      seq(icaseKeyword('offset'), '(', $.expression, ',', $.expression, ')'),
     ),
 
     state_action: $ => choice(
@@ -445,11 +442,11 @@ module.exports = grammar({
     ),
 
     state_flow: $ => choice(
-      seq(caseInsensitive('loop'), optional(';')),
-      seq(caseInsensitive('stop'), optional(';')),
-      seq(caseInsensitive('wait'), optional(';')),
-      seq(caseInsensitive('fail'), optional(';')),
-      seq(caseInsensitive('goto'), field('target', $.state_goto_target), optional(';')),
+      seq(icaseKeyword('loop'), optional(';')),
+      seq(icaseKeyword('stop'), optional(';')),
+      seq(icaseKeyword('wait'), optional(';')),
+      seq(icaseKeyword('fail'), optional(';')),
+      seq(icaseKeyword('goto'), field('target', $.state_goto_target), optional(';')),
     ),
 
     state_goto_target: $ => seq(
@@ -484,14 +481,14 @@ module.exports = grammar({
     )),
 
     storage_class_specifier: _ => choice(
-      caseInsensitive('static'),
-      caseInsensitive('extern'),
+      icaseKeyword('static'),
+      icaseKeyword('extern'),
     ),
 
     type_qualifier: _ => choice(
-      caseInsensitive('const'),
-      caseInsensitive('in'),
-      caseInsensitive('out'),
+      icaseKeyword('const'),
+      icaseKeyword('in'),
+      icaseKeyword('out'),
     ),
 
     // =========================================================================
@@ -510,56 +507,56 @@ module.exports = grammar({
     ),
 
     primitive_type: _ => choice(
-      caseInsensitive('void'),
-      caseInsensitive('bool'),
-      caseInsensitive('int'),
-      caseInsensitive('uint'),
-      caseInsensitive('float'),
-      caseInsensitive('double'),
-      caseInsensitive('string'),
-      caseInsensitive('name'),
-      caseInsensitive('sound'),
-      caseInsensitive('color'),
-      caseInsensitive('vector2'),
-      caseInsensitive('vector3'),
-      caseInsensitive('vector4'),
-      caseInsensitive('state'),
-      caseInsensitive('statelabel'),
-      caseInsensitive('spriteid'),
-      caseInsensitive('textureid'),
-      caseInsensitive('voidptr'),
-      caseInsensitive('int8'),
-      caseInsensitive('int16'),
-      caseInsensitive('uint8'),
-      caseInsensitive('uint16'),
-      caseInsensitive('let'),
-      caseInsensitive('var'),
+      icaseKeyword('void'),
+      icaseKeyword('bool'),
+      icaseKeyword('int'),
+      icaseKeyword('uint'),
+      icaseKeyword('float'),
+      icaseKeyword('double'),
+      icaseKeyword('string'),
+      icaseKeyword('name'),
+      icaseKeyword('sound'),
+      icaseKeyword('color'),
+      icaseKeyword('vector2'),
+      icaseKeyword('vector3'),
+      icaseKeyword('vector4'),
+      icaseKeyword('state'),
+      icaseKeyword('statelabel'),
+      icaseKeyword('spriteid'),
+      icaseKeyword('textureid'),
+      icaseKeyword('voidptr'),
+      icaseKeyword('int8'),
+      icaseKeyword('int16'),
+      icaseKeyword('uint8'),
+      icaseKeyword('uint16'),
+      icaseKeyword('let'),
+      icaseKeyword('var'),
     ),
 
     sized_type_specifier: $ => seq(
       repeat1(choice(
-        caseInsensitive('signed'),
-        caseInsensitive('unsigned'),
-        caseInsensitive('short'),
-        caseInsensitive('long'),
+        icaseKeyword('signed'),
+        icaseKeyword('unsigned'),
+        icaseKeyword('short'),
+        icaseKeyword('long'),
       )),
       optional($.primitive_type),
     ),
 
     class_type: $ => prec(-1, seq(
-      caseInsensitive('class'),
+      icaseKeyword('class'),
       optional(seq('<', $._type_identifier, '>')),
     )),
 
     array_type: $ => seq(
-      caseInsensitive('array'),
+      icaseKeyword('array'),
       '<',
       field('element', $.type_specifier),
       '>',
     ),
 
     map_type: $ => seq(
-      caseInsensitive('map'),
+      icaseKeyword('map'),
       '<',
       field('key', $.type_specifier),
       ',',
@@ -568,7 +565,7 @@ module.exports = grammar({
     ),
 
     mapiterator_type: $ => seq(
-      caseInsensitive('mapiterator'),
+      icaseKeyword('mapiterator'),
       '<',
       field('key', $.type_specifier),
       ',',
@@ -577,7 +574,7 @@ module.exports = grammar({
     ),
 
     readonly_type: $ => seq(
-      caseInsensitive('readonly'),
+      icaseKeyword('readonly'),
       '<',
       field('type', $.type_specifier),
       '>',
@@ -648,8 +645,8 @@ module.exports = grammar({
     parameter_modifiers: $ => prec.left(repeat1($.parameter_modifier)),
 
     parameter_modifier: _ => choice(
-      caseInsensitive('in'),
-      caseInsensitive('out'),
+      icaseKeyword('in'),
+      icaseKeyword('out'),
     ),
 
     // =========================================================================
@@ -705,7 +702,7 @@ module.exports = grammar({
     ),
 
     if_statement: $ => prec.right(seq(
-      caseInsensitive('if'),
+      icaseKeyword('if'),
       '(',
       field('condition', $.expression),
       ')',
@@ -713,10 +710,10 @@ module.exports = grammar({
       optional(field('alternative', $.else_clause)),
     )),
 
-    else_clause: $ => seq(caseInsensitive('else'), $.statement),
+    else_clause: $ => seq(icaseKeyword('else'), $.statement),
 
     switch_statement: $ => seq(
-      caseInsensitive('switch'),
+      icaseKeyword('switch'),
       '(',
       field('condition', $.expression),
       ')',
@@ -725,15 +722,15 @@ module.exports = grammar({
 
     case_statement: $ => prec.right(seq(
       choice(
-        seq(caseInsensitive('case'), field('value', $.expression)),
-        caseInsensitive('default'),
+        seq(icaseKeyword('case'), field('value', $.expression)),
+        icaseKeyword('default'),
       ),
       ':',
       repeat(choice($._non_case_statement, $.declaration)),
     )),
 
     while_statement: $ => seq(
-      caseInsensitive('while'),
+      icaseKeyword('while'),
       '(',
       field('condition', $.expression),
       ')',
@@ -741,9 +738,9 @@ module.exports = grammar({
     ),
 
     do_statement: $ => seq(
-      caseInsensitive('do'),
+      icaseKeyword('do'),
       field('body', $.statement),
-      caseInsensitive('while'),
+      icaseKeyword('while'),
       '(',
       field('condition', $.expression),
       ')',
@@ -751,7 +748,7 @@ module.exports = grammar({
     ),
 
     for_statement: $ => seq(
-      caseInsensitive('for'),
+      icaseKeyword('for'),
       '(',
       choice(
         field('initializer', $.declaration),
@@ -765,7 +762,7 @@ module.exports = grammar({
     ),
 
     foreach_statement: $ => seq(
-      caseInsensitive('foreach'),
+      icaseKeyword('foreach'),
       '(',
       field('variable', $.identifier),
       ':',
@@ -775,18 +772,18 @@ module.exports = grammar({
     ),
 
     return_statement: $ => seq(
-      caseInsensitive('return'),
+      icaseKeyword('return'),
       optional($.expression),
       ';',
     ),
 
     break_statement: _ => seq(
-      caseInsensitive('break'),
+      icaseKeyword('break'),
       ';',
     ),
 
     continue_statement: _ => seq(
-      caseInsensitive('continue'),
+      icaseKeyword('continue'),
       ';',
     ),
 
@@ -938,7 +935,7 @@ module.exports = grammar({
     )),
 
     sizeof_expression: $ => prec(PREC.SIZEOF, seq(
-      caseInsensitive('sizeof'),
+      icaseKeyword('sizeof'),
       choice(
         field('value', $.expression),
         seq('(', field('type', $.type_specifier), ')'),
@@ -946,7 +943,7 @@ module.exports = grammar({
     )),
 
     alignof_expression: $ => prec(PREC.SIZEOF, seq(
-      caseInsensitive('alignof'),
+      icaseKeyword('alignof'),
       '(',
       field('type', $.type_specifier),
       ')',
@@ -1014,11 +1011,11 @@ module.exports = grammar({
     // randompick(a, b, c, ...), frandompick(a, b, c, ...) - pick from list
     random_expression: $ => prec(PREC.CALL, seq(
       field('function', choice(
-        caseInsensitive('random'),
-        caseInsensitive('frandom'),
-        caseInsensitive('random2'),
-        caseInsensitive('randompick'),
-        caseInsensitive('frandompick'),
+        icaseKeyword('random'),
+        icaseKeyword('frandom'),
+        icaseKeyword('random2'),
+        icaseKeyword('randompick'),
+        icaseKeyword('frandompick'),
       )),
       optional(seq('[', field('id', $.identifier), ']')),
       '(',
@@ -1027,7 +1024,7 @@ module.exports = grammar({
     )),
 
     getclass_expression: _ => prec(PREC.CALL, seq(
-      caseInsensitive('getclass'),
+      icaseKeyword('getclass'),
       '(',
       ')',
     )),
@@ -1038,14 +1035,14 @@ module.exports = grammar({
       "'",
     ),
 
-    super_expression: _ => caseInsensitive('super'),
+    super_expression: _ => icaseKeyword('super'),
 
-    self_expression: _ => caseInsensitive('self'),
+    self_expression: _ => icaseKeyword('self'),
 
-    invoker_expression: _ => caseInsensitive('invoker'),
+    invoker_expression: _ => icaseKeyword('invoker'),
 
     state_expression: $ => prec(PREC.CALL, seq(
-      caseInsensitive('resolvestate'),
+      icaseKeyword('resolvestate'),
       '(',
       field('state', choice($.string_literal, $.null)),
       ')',
@@ -1055,8 +1052,8 @@ module.exports = grammar({
     // Limited to specific types to avoid conflicts with identifier expressions
     type_member_expression: $ => prec(PREC.FIELD, seq(
       field('type', choice(
-        caseInsensitive('double'),
-        caseInsensitive('float'),
+        icaseKeyword('double'),
+        icaseKeyword('float'),
       )),
       '.',
       field('member', $._field_identifier),
@@ -1092,19 +1089,19 @@ module.exports = grammar({
           seq(
             choice(
               decimalDigits,
-              seq(/0[bB]/, /[01]+/),
-              seq(/0[xX]/, hexDigits),
+              seq(/0b/i, /[01]+/),
+              seq(/0x/i, hexDigits),
             ),
             optional(seq('.', optional(hexDigits))),
           ),
           seq('.', decimalDigits),
         ),
         optional(seq(
-          /[eEpP]/,
+          /[ep]/i,
           optional(/[-+]/),
           hexDigits,
         )),
-        /[uUlLfF]*/,
+        /[ulf]*/i,
       ));
     },
 
@@ -1131,7 +1128,7 @@ module.exports = grammar({
       '"',
     ),
 
-    escape_sequence: _ => token(prec(1, seq(
+    escape_sequence: _ => token.immediate(prec(1, seq(
       '\\',
       choice(
         /[^xuU]/,
@@ -1142,9 +1139,9 @@ module.exports = grammar({
       ),
     ))),
 
-    true: _ => caseInsensitive('true'),
-    false: _ => caseInsensitive('false'),
-    null: _ => caseInsensitive('null'),
+    true: _ => icaseKeyword('true', true),
+    false: _ => icaseKeyword('false', true),
+    null: _ => icaseKeyword('null', true),
 
     // =========================================================================
     // Identifiers
@@ -1180,10 +1177,14 @@ module.exports = grammar({
 /**
  * Creates a case-insensitive keyword
  * @param {string} word
- * @returns {AliasRule}
+ * @returns {RegExp|AliasRule}
  */
-function caseInsensitive(word) {
-  return alias(new RegExp(word, 'i'), word)
+function icaseKeyword(word, hidden = false) {
+  const re = new RegExp(word, 'i')
+  if (hidden)
+    return re
+  else
+    return alias(re, word)
 }
 
 /**

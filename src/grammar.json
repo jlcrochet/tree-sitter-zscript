@@ -51,38 +51,14 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "#"
-                },
-                {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "include",
-                    "flags": "i"
-                  },
-                  "named": false,
-                  "value": "include"
-                }
-              ]
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "PATTERN",
-                "value": "include",
-                "flags": "i"
-              },
-              "named": false,
-              "value": "include"
-            }
-          ]
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "#include",
+            "flags": "i"
+          },
+          "named": false,
+          "value": "#include"
         },
         {
           "type": "FIELD",
@@ -6116,7 +6092,8 @@
                         "members": [
                           {
                             "type": "PATTERN",
-                            "value": "0[bB]"
+                            "value": "0b",
+                            "flags": "i"
                           },
                           {
                             "type": "PATTERN",
@@ -6129,7 +6106,8 @@
                         "members": [
                           {
                             "type": "PATTERN",
-                            "value": "0[xX]"
+                            "value": "0x",
+                            "flags": "i"
                           },
                           {
                             "type": "SEQ",
@@ -6274,7 +6252,8 @@
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "[eEpP]"
+                    "value": "[ep]",
+                    "flags": "i"
                   },
                   {
                     "type": "CHOICE",
@@ -6328,7 +6307,8 @@
           },
           {
             "type": "PATTERN",
-            "value": "[uUlLfF]*"
+            "value": "[ulf]*",
+            "flags": "i"
           }
         ]
       }
@@ -6424,7 +6404,7 @@
       ]
     },
     "escape_sequence": {
-      "type": "TOKEN",
+      "type": "IMMEDIATE_TOKEN",
       "content": {
         "type": "PREC",
         "value": 1,
@@ -6465,34 +6445,19 @@
       }
     },
     "true": {
-      "type": "ALIAS",
-      "content": {
-        "type": "PATTERN",
-        "value": "true",
-        "flags": "i"
-      },
-      "named": false,
-      "value": "true"
+      "type": "PATTERN",
+      "value": "true",
+      "flags": "i"
     },
     "false": {
-      "type": "ALIAS",
-      "content": {
-        "type": "PATTERN",
-        "value": "false",
-        "flags": "i"
-      },
-      "named": false,
-      "value": "false"
+      "type": "PATTERN",
+      "value": "false",
+      "flags": "i"
     },
     "null": {
-      "type": "ALIAS",
-      "content": {
-        "type": "PATTERN",
-        "value": "null",
-        "flags": "i"
-      },
-      "named": false,
-      "value": "null"
+      "type": "PATTERN",
+      "value": "null",
+      "flags": "i"
     },
     "identifier": {
       "type": "PATTERN",
