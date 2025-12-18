@@ -1669,21 +1669,61 @@
       ]
     },
     "state_label": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "SYMBOL",
-            "name": "state_label_name"
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "state_label_name"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": ":"
+          },
+          {
+            "type": "FIELD",
+            "name": "body",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "state_body"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
           }
-        },
-        {
-          "type": "STRING",
-          "value": ":"
+        ]
+      }
+    },
+    "state_body": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "REPEAT1",
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "state_line"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "state_flow"
+            }
+          ]
         }
-      ]
+      }
     },
     "state_label_name": {
       "type": "SEQ",
@@ -1718,18 +1758,10 @@
         "members": [
           {
             "type": "FIELD",
-            "name": "sprite",
+            "name": "sprite_frames",
             "content": {
               "type": "SYMBOL",
-              "name": "state_sprite"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "frames",
-            "content": {
-              "type": "SYMBOL",
-              "name": "state_frames"
+              "name": "state_sprite_frames"
             }
           },
           {
@@ -1779,13 +1811,42 @@
         ]
       }
     },
-    "state_sprite": {
-      "type": "PATTERN",
-      "value": "\"####\"|\"[A-Z0-9_]{4}\"|####|[A-Z0-9_]{4}"
-    },
-    "state_frames": {
-      "type": "PATTERN",
-      "value": "[A-Z0-9\\[\\]\\\\#]+"
+    "state_sprite_frames": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "\"####\""
+              },
+              {
+                "type": "PATTERN",
+                "value": "\"[A-Z0-9_]{4}\""
+              },
+              {
+                "type": "PATTERN",
+                "value": "####"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[A-Z0-9_]{4}"
+              }
+            ]
+          },
+          {
+            "type": "PATTERN",
+            "value": "[ \\t]+"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[A-Z0-9\\[\\]\\\\#]+"
+          }
+        ]
+      }
     },
     "_state_duration": {
       "type": "CHOICE",

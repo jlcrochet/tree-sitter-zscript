@@ -385,10 +385,19 @@ module.exports = grammar({
       $.state_flow,
     ),
 
-    state_label: $ => seq(
+    // A state label followed by its body (state lines and flow control)
+    // The body is captured to enable proper indentation queries
+    state_label: $ => prec.right(seq(
       field('name', $.state_label_name),
       ':',
-    ),
+      field('body', optional($.state_body)),
+    )),
+
+    // The body of a state label - contains state lines and optionally ends with flow control
+    state_body: $ => prec.right(repeat1(choice(
+      $.state_line,
+      $.state_flow,
+    ))),
 
     state_label_name: $ => seq(
       $.identifier,
@@ -396,22 +405,32 @@ module.exports = grammar({
     ),
 
     state_line: $ => prec.right(seq(
-      field('sprite', $.state_sprite),
-      field('frames', $.state_frames),
+      field('sprite_frames', $.state_sprite_frames),
       field('duration', $._state_duration),
       optional($.state_modifiers),
       optional($.state_action),
       optional(';'),
     )),
 
-    // State sprite - matches (longer patterns first):
-    // - "####" quoted previous sprite (6 chars)
-    // - "XXXX" quoted sprite name (6 chars)
-    // - #### for previous sprite (4 chars)
-    // - 4 uppercase chars: PLAY, TNT1, etc. (4 chars)
-    state_sprite: _ => /"####"|"[A-Z0-9_]{4}"|####|[A-Z0-9_]{4}/,
-
-    state_frames: _ => /[A-Z0-9\[\]\\#]+/,
+    // Combined state sprite + frames as a SINGLE token
+    // This prevents ambiguity with 4-uppercase-letter state labels like "SHRL:"
+    // because the entire "TROO A" or "TNT1 ABCD" is matched as one token.
+    // If followed by ':', it won't match this pattern and will fall through to identifier.
+    //
+    // Pattern breakdown:
+    // - ("####"|"[A-Z0-9_]{4}"|####|[A-Z0-9_]{4}) - sprite part
+    // - [ \t]+ - required whitespace
+    // - [A-Z0-9\[\]\\#]+ - frame characters
+    state_sprite_frames: _ => token(seq(
+      choice(
+        /"####"/,
+        /"[A-Z0-9_]{4}"/,
+        /####/,
+        /[A-Z0-9_]{4}/,
+      ),
+      /[ \t]+/,
+      /[A-Z0-9\[\]\\#]+/,
+    )),
 
     _state_duration: $ => choice(
       $.number_literal,

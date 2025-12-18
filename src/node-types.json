@@ -2280,6 +2280,25 @@
     }
   },
   {
+    "type": "state_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "state_flow",
+          "named": true
+        },
+        {
+          "type": "state_line",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "state_expression",
     "named": true,
     "fields": {
@@ -2349,6 +2368,16 @@
     "type": "state_label",
     "named": true,
     "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "state_body",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -2398,22 +2427,12 @@
           }
         ]
       },
-      "frames": {
+      "sprite_frames": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "state_frames",
-            "named": true
-          }
-        ]
-      },
-      "sprite": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "state_sprite",
+            "type": "state_sprite_frames",
             "named": true
           }
         ]
@@ -3416,11 +3435,7 @@
     "named": false
   },
   {
-    "type": "state_frames",
-    "named": true
-  },
-  {
-    "type": "state_sprite",
+    "type": "state_sprite_frames",
     "named": true
   },
   {

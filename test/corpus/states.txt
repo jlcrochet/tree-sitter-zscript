@@ -20,12 +20,12 @@ class Test : Actor {
     (states_block
       (state_label
         name: (state_label_name
-          (identifier)))
-      (state_line
-        sprite: (state_sprite)
-        frames: (state_frames)
-        duration: (number_literal))
-      (state_flow))))
+          (identifier))
+        body: (state_body
+          (state_line
+            sprite_frames: (state_sprite_frames)
+            duration: (number_literal))
+          (state_flow))))))
 
 ================================================================================
 States with multiple labels
@@ -52,23 +52,23 @@ class Test : Actor {
     (states_block
       (state_label
         name: (state_label_name
-          (identifier)))
-      (state_line
-        sprite: (state_sprite)
-        frames: (state_frames)
-        duration: (number_literal))
-      (state_flow
-        target: (state_goto_target
-          (state_label_name
-            (identifier))))
+          (identifier))
+        body: (state_body
+          (state_line
+            sprite_frames: (state_sprite_frames)
+            duration: (number_literal))
+          (state_flow
+            target: (state_goto_target
+              (state_label_name
+                (identifier))))))
       (state_label
         name: (state_label_name
-          (identifier)))
-      (state_line
-        sprite: (state_sprite)
-        frames: (state_frames)
-        duration: (number_literal))
-      (state_flow))))
+          (identifier))
+        body: (state_body
+          (state_line
+            sprite_frames: (state_sprite_frames)
+            duration: (number_literal))
+          (state_flow))))))
 
 ================================================================================
 State with BRIGHT modifier
@@ -92,14 +92,14 @@ class Test : Actor {
     (states_block
       (state_label
         name: (state_label_name
-          (identifier)))
-      (state_line
-        sprite: (state_sprite)
-        frames: (state_frames)
-        duration: (number_literal)
-        (state_modifiers
-          (state_modifier)))
-      (state_flow))))
+          (identifier))
+        body: (state_body
+          (state_line
+            sprite_frames: (state_sprite_frames)
+            duration: (number_literal)
+            (state_modifiers
+              (state_modifier)))
+          (state_flow))))))
 
 ================================================================================
 State with function call
@@ -124,25 +124,24 @@ class Test : Actor {
     (states_block
       (state_label
         name: (state_label_name
-          (identifier)))
-      (state_line
-        sprite: (state_sprite)
-        frames: (state_frames)
-        duration: (number_literal)
-        (state_action
-          (state_action_call
-            function: (identifier))))
-      (state_line
-        sprite: (state_sprite)
-        frames: (state_frames)
-        duration: (number_literal)
-        (state_action
-          (state_action_call
-            function: (identifier))))
-      (state_flow
-        target: (state_goto_target
-          (state_label_name
-            (identifier)))))))
+          (identifier))
+        body: (state_body
+          (state_line
+            sprite_frames: (state_sprite_frames)
+            duration: (number_literal)
+            (state_action
+              (state_action_call
+                function: (identifier))))
+          (state_line
+            sprite_frames: (state_sprite_frames)
+            duration: (number_literal)
+            (state_action
+              (state_action_call
+                function: (identifier))))
+          (state_flow
+            target: (state_goto_target
+              (state_label_name
+                (identifier)))))))))
 
 ================================================================================
 State with anonymous function
@@ -168,18 +167,18 @@ class Test : Actor {
     (states_block
       (state_label
         name: (state_label_name
-          (identifier)))
-      (state_line
-        sprite: (state_sprite)
-        frames: (state_frames)
-        duration: (number_literal)
-        (state_action
-          (compound_statement
-            (expression_statement
-              (call_expression
-                function: (identifier)
-                arguments: (argument_list))))))
-      (state_flow))))
+          (identifier))
+        body: (state_body
+          (state_line
+            sprite_frames: (state_sprite_frames)
+            duration: (number_literal)
+            (state_action
+              (compound_statement
+                (expression_statement
+                  (call_expression
+                    function: (identifier)
+                    arguments: (argument_list))))))
+          (state_flow))))))
 
 ================================================================================
 Dotted state label
@@ -204,12 +203,12 @@ class Test : Actor {
       (state_label
         name: (state_label_name
           (identifier)
-          (identifier)))
-      (state_line
-        sprite: (state_sprite)
-        frames: (state_frames)
-        duration: (number_literal))
-      (state_flow))))
+          (identifier))
+        body: (state_body
+          (state_line
+            sprite_frames: (state_sprite_frames)
+            duration: (number_literal))
+          (state_flow))))))
 
 ================================================================================
 Goto with offset
@@ -234,23 +233,22 @@ class Test : Actor {
     (states_block
       (state_label
         name: (state_label_name
-          (identifier)))
-      (state_line
-        sprite: (state_sprite)
-        frames: (state_frames)
-        duration: (number_literal))
-      (state_line
-        sprite: (state_sprite)
-        frames: (state_frames)
-        duration: (number_literal)
-        (state_action
-          (state_action_call
-            function: (identifier))))
-      (state_flow
-        target: (state_goto_target
-          (state_label_name
-            (identifier))
-          (number_literal))))))
+          (identifier))
+        body: (state_body
+          (state_line
+            sprite_frames: (state_sprite_frames)
+            duration: (number_literal))
+          (state_line
+            sprite_frames: (state_sprite_frames)
+            duration: (number_literal)
+            (state_action
+              (state_action_call
+                function: (identifier))))
+          (state_flow
+            target: (state_goto_target
+              (state_label_name
+                (identifier))
+              (number_literal))))))))
 
 ================================================================================
 State with NoDelay
@@ -275,15 +273,57 @@ class Test : Actor {
     (states_block
       (state_label
         name: (state_label_name
-          (identifier)))
-      (state_line
-        sprite: (state_sprite)
-        frames: (state_frames)
-        duration: (number_literal)
-        (state_modifiers
-          (state_modifier)))
-      (state_line
-        sprite: (state_sprite)
-        frames: (state_frames)
-        duration: (number_literal))
-      (state_flow))))
+          (identifier))
+        body: (state_body
+          (state_line
+            sprite_frames: (state_sprite_frames)
+            duration: (number_literal)
+            (state_modifiers
+              (state_modifier)))
+          (state_line
+            sprite_frames: (state_sprite_frames)
+            duration: (number_literal))
+          (state_flow))))))
+
+================================================================================
+Four-letter uppercase state labels
+================================================================================
+
+class Test : Actor {
+    States {
+        SHRL:
+            YRO1 A 1
+            Loop
+        SHRE:
+            TNT1 A 0
+            Goto See
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier))
+    (states_block
+      (state_label
+        name: (state_label_name
+          (identifier))
+        body: (state_body
+          (state_line
+            sprite_frames: (state_sprite_frames)
+            duration: (number_literal))
+          (state_flow)))
+      (state_label
+        name: (state_label_name
+          (identifier))
+        body: (state_body
+          (state_line
+            sprite_frames: (state_sprite_frames)
+            duration: (number_literal))
+          (state_flow
+            target: (state_goto_target
+              (state_label_name
+                (identifier)))))))))
