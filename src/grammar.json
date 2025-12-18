@@ -3960,10 +3960,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "char_literal"
-        },
-        {
-          "type": "SYMBOL",
           "name": "concatenated_string"
         },
         {
@@ -5816,8 +5812,11 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "PATTERN",
-              "value": "[^'\\n]*"
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^'\\n]*"
+              }
             },
             {
               "type": "BLANK"
@@ -6312,35 +6311,6 @@
           }
         ]
       }
-    },
-    "char_literal": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "'"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "escape_sequence"
-            },
-            {
-              "type": "IMMEDIATE_TOKEN",
-              "content": {
-                "type": "PATTERN",
-                "value": "[^\\n']"
-              }
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": "'"
-        }
-      ]
     },
     "concatenated_string": {
       "type": "PREC_RIGHT",

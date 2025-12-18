@@ -54,10 +54,6 @@
         "named": true
       },
       {
-        "type": "char_literal",
-        "named": true
-      },
-      {
         "type": "concatenated_string",
         "named": true
       },
@@ -712,21 +708,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "char_literal",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "escape_sequence",
-          "named": true
-        }
-      ]
     }
   },
   {
