@@ -785,7 +785,7 @@
               "name": "declarator",
               "content": {
                 "type": "SYMBOL",
-                "name": "_declarator"
+                "name": "declarator"
               }
             },
             {
@@ -802,7 +802,7 @@
                     "name": "declarator",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "_declarator"
+                      "name": "declarator"
                     }
                   }
                 ]
@@ -2932,7 +2932,7 @@
         }
       ]
     },
-    "_declarator": {
+    "declarator": {
       "type": "CHOICE",
       "members": [
         {
@@ -2979,7 +2979,7 @@
               "name": "declarator",
               "content": {
                 "type": "SYMBOL",
-                "name": "_declarator"
+                "name": "declarator"
               }
             }
           ]
@@ -2997,7 +2997,7 @@
             "name": "declarator",
             "content": {
               "type": "SYMBOL",
-              "name": "_declarator"
+              "name": "declarator"
             }
           },
           {
@@ -3022,7 +3022,7 @@
             "name": "declarator",
             "content": {
               "type": "SYMBOL",
-              "name": "_declarator"
+              "name": "declarator"
             }
           },
           {
@@ -3061,7 +3061,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_declarator"
+          "name": "declarator"
         },
         {
           "type": "STRING",
@@ -3191,7 +3191,7 @@
                   "name": "declarator",
                   "content": {
                     "type": "SYMBOL",
-                    "name": "_declarator"
+                    "name": "declarator"
                   }
                 },
                 {
@@ -3403,7 +3403,7 @@
               "name": "declarator",
               "content": {
                 "type": "SYMBOL",
-                "name": "_declarator"
+                "name": "declarator"
               }
             },
             {
@@ -3420,7 +3420,7 @@
                     "name": "declarator",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "_declarator"
+                      "name": "declarator"
                     }
                   }
                 ]
@@ -6598,7 +6598,7 @@
     ],
     [
       "method_definition",
-      "_declarator"
+      "declarator"
     ],
     [
       "vector_literal"
@@ -6617,7 +6617,7 @@
     "expression",
     "statement",
     "type_specifier",
-    "_declarator"
+    "declarator"
   ],
   "reserved": {}
 }

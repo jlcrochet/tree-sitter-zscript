@@ -38,7 +38,7 @@ module.exports = grammar({
     [$.type_specifier, $.expression],
     [$.method_definition, $.type_specifier],
     [$.type_qualifier, $.parameter_modifier],
-    [$.method_definition, $._declarator],
+    [$.method_definition, $.declarator],
     [$.vector_literal],
   ],
 
@@ -59,7 +59,7 @@ module.exports = grammar({
     $.expression,
     $.statement,
     $.type_specifier,
-    $._declarator,
+    $.declarator,
   ],
 
   word: $ => $.identifier,
@@ -228,7 +228,7 @@ module.exports = grammar({
     field_declaration: $ => seq(
       optional($.member_modifiers),
       field('type', $.type_specifier),
-      commaSep1(field('declarator', $._declarator)),
+      commaSep1(field('declarator', $.declarator)),
       ';',
     ),
 
@@ -603,7 +603,7 @@ module.exports = grammar({
     // Declarators
     // =========================================================================
 
-    _declarator: $ => choice(
+    declarator: $ => choice(
       $.pointer_declarator,
       $.function_declarator,
       $.array_declarator,
@@ -614,16 +614,16 @@ module.exports = grammar({
 
     pointer_declarator: $ => prec.dynamic(1, prec.right(seq(
       '*',
-      field('declarator', $._declarator),
+      field('declarator', $.declarator),
     ))),
 
     function_declarator: $ => prec(1, seq(
-      field('declarator', $._declarator),
+      field('declarator', $.declarator),
       field('parameters', $.parameter_list),
     )),
 
     array_declarator: $ => prec(1, seq(
-      field('declarator', $._declarator),
+      field('declarator', $.declarator),
       '[',
       field('size', optional($.expression)),
       ']',
@@ -631,7 +631,7 @@ module.exports = grammar({
 
     parenthesized_declarator: $ => seq(
       '(',
-      $._declarator,
+      $.declarator,
       ')',
     ),
 
@@ -655,7 +655,7 @@ module.exports = grammar({
       seq(
         optional($.parameter_modifiers),
         $._declaration_specifiers,
-        optional(field('declarator', $._declarator)),
+        optional(field('declarator', $.declarator)),
         optional(seq('=', field('default', $.expression))),
       ),
       '...',
@@ -711,7 +711,7 @@ module.exports = grammar({
 
     declaration: $ => seq(
       $._declaration_specifiers,
-      commaSep1(field('declarator', $._declarator)),
+      commaSep1(field('declarator', $.declarator)),
       ';',
     ),
 
