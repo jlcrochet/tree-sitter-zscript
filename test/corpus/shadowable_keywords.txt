@@ -579,16 +579,15 @@ class Test {
 (source_file
   (class_definition
     name: (type_identifier)
-    (field_declaration
+    (method_definition
       type: (primitive_type)
-      declarator: (function_declarator
-        declarator: (identifier)
-        parameters: (parameter_list
-          (parameter_declaration
-            type: (type_identifier)
-            declarator: (identifier
-              (identifier)))
-          (ERROR))))))
+      name: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (type_identifier)
+          declarator: (identifier
+            (identifier)))
+        (ERROR)))))
 
 ================================================================================
 Reserved parser keywords remain syntax errors in bare-name positions

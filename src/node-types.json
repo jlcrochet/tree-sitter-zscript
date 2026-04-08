@@ -969,7 +969,19 @@
         "required": false,
         "types": [
           {
-            "type": "declarator",
+            "type": "array_declarator",
+            "named": true
+          },
+          {
+            "type": "function_declarator",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "init_declarator",
             "named": true
           }
         ]
@@ -978,6 +990,10 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "multi_return_type",
+            "named": true
+          },
           {
             "type": "type_specifier",
             "named": true
@@ -990,15 +1006,15 @@
       "required": false,
       "types": [
         {
+          "type": "const_qualifier",
+          "named": true
+        },
+        {
           "type": "let_destructuring_declaration",
           "named": true
         },
         {
-          "type": "storage_class_specifier",
-          "named": true
-        },
-        {
-          "type": "type_qualifier",
+          "type": "member_modifiers",
           "named": true
         }
       ]
@@ -1239,7 +1255,15 @@
         "required": true,
         "types": [
           {
-            "type": "declarator",
+            "type": "array_declarator",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "init_declarator",
             "named": true
           }
         ]
@@ -1547,6 +1571,10 @@
         "required": true,
         "types": [
           {
+            "type": "multi_return_type",
+            "named": true
+          },
+          {
             "type": "type_specifier",
             "named": true
           }
@@ -1558,11 +1586,11 @@
       "required": false,
       "types": [
         {
-          "type": "storage_class_specifier",
+          "type": "const_qualifier",
           "named": true
         },
         {
-          "type": "type_qualifier",
+          "type": "member_modifiers",
           "named": true
         }
       ]
@@ -1881,7 +1909,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
@@ -1946,7 +1974,7 @@
       },
       "type": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "multi_return_type",
@@ -2049,7 +2077,7 @@
         "required": false,
         "types": [
           {
-            "type": "declarator",
+            "type": "identifier",
             "named": true
           }
         ]
@@ -2076,19 +2104,11 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
           "type": "parameter_modifiers",
-          "named": true
-        },
-        {
-          "type": "storage_class_specifier",
-          "named": true
-        },
-        {
-          "type": "type_qualifier",
           "named": true
         }
       ]
@@ -2777,7 +2797,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "identifier",
@@ -2821,11 +2841,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "storage_class_specifier",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "string_literal",
@@ -2893,7 +2908,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
@@ -3064,11 +3079,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "type_qualifier",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "unary_expression",
@@ -3551,10 +3561,6 @@
   },
   {
     "type": "extend",
-    "named": false
-  },
-  {
-    "type": "extern",
     "named": false
   },
   {

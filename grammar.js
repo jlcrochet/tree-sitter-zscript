@@ -147,10 +147,8 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.type_specifier, $.expression],
-    [$.method_definition, $.type_specifier],
-    [$.type_qualifier, $.parameter_modifier],
-    [$.method_definition, $.declarator],
-    [$.static_const_array, $.storage_class_specifier],
+    [$.field_declaration, $._return_type],
+    [$._return_type, $._global_declaration],
     [$.vector_literal],
     [$.return_value_list, $.vector_literal],
   ],
@@ -188,7 +186,7 @@ module.exports = grammar({
       $.include_directive,
       $.version_directive,
       $.function_definition,
-      $.declaration,
+      alias($._global_declaration, $.declaration),
     ),
 
     // =========================================================================
@@ -235,14 +233,13 @@ module.exports = grammar({
     class_flag: $ => choice(
       keyword('abstract'),
       keyword('final'),
-      keyword('play'),
-      keyword('ui'),
-      keyword('clearscope'),
       keyword('native'),
-      keyword('replaces'),
+      keyword('ui'),
+      keyword('play'),
       seq(keyword('replaces'), $._dottable_type_identifier),
-      seq(keyword('sealed'), '(', commaSep($.identifier), ')'),
-      seq(keyword('version'), '(', $.string_literal, ')'),
+      seq(keyword('sealed'), '(', commaSep1($.identifier), ')'),
+      $._version_modifier,
+      $._deprecated_modifier,
     ),
 
     // =========================================================================
@@ -263,16 +260,18 @@ module.exports = grammar({
     struct_flags: $ => repeat1($.struct_flag),
 
     struct_flag: $ => choice(
-      keyword('play'),
       keyword('ui'),
+      keyword('play'),
       keyword('clearscope'),
       keyword('native'),
-      seq(keyword('version'), '(', $.string_literal, ')'),
+      $._unsafe_internal_modifier,
+      $._version_modifier,
+      $._deprecated_modifier,
     ),
 
     _struct_body_item: $ => choice(
-      $.field_declaration,
       $.method_definition,
+      $.field_declaration,
       $.const_definition,
       $.enum_definition,
     ),
@@ -324,8 +323,8 @@ module.exports = grammar({
     // =========================================================================
 
     _class_body_item: $ => choice(
-      $.field_declaration,
       $.method_definition,
+      $.field_declaration,
       $.default_block,
       $.states_block,
       $.property_definition,
@@ -343,7 +342,7 @@ module.exports = grammar({
     field_declaration: $ => seq(
       optional($.member_modifiers),
       field('type', $.type_specifier),
-      commaSep1(field('declarator', $.declarator)),
+      commaSep1(field('declarator', $._variable_declarator)),
       ';',
     ),
 
@@ -352,28 +351,73 @@ module.exports = grammar({
     member_modifier: $ => choice(
       keyword('abstract'),
       keyword('native'),
-      keyword('meta'),
-      keyword('transient'),
-      keyword('readonly'),
+      keyword('static'),
       keyword('private'),
       keyword('protected'),
-      keyword('deprecated'),
-      keyword('internal'),
       keyword('latent'),
       keyword('final'),
+      keyword('meta'),
+      keyword('transient'),
       keyword('norollback'),
-      keyword('static'),
-      keyword('play'),
-      keyword('ui'),
-      keyword('clearscope'),
-      keyword('virtualscope'),
-      seq(keyword('unsafe'), '(', keyword('clearscope'), ')'),
-      keyword('action'),
-      seq(keyword('action'), $.states_options),
-      keyword('override'),
+      keyword('readonly'),
+      keyword('internal'),
       keyword('virtual'),
+      keyword('override'),
       keyword('vararg'),
-      seq(keyword('version'), '(', $.string_literal, ')'),
+      keyword('ui'),
+      keyword('play'),
+      keyword('clearscope'),
+      $._unsafe_clearscope_modifier,
+      keyword('virtualscope'),
+      seq(keyword('action'), optional($.states_options)),
+      $._version_modifier,
+      $._deprecated_modifier,
+    ),
+
+    _deprecated_modifier: $ => seq(
+      keyword('deprecated'),
+      '(',
+      $.string_literal,
+      optional(seq(',', $.string_literal)),
+      ')',
+    ),
+
+    _version_modifier: $ => seq(
+      keyword('version'),
+      '(',
+      $.string_literal,
+      ')',
+    ),
+
+    _unsafe_clearscope_modifier: _ => seq(
+      keyword('unsafe'),
+      '(',
+      keyword('clearscope'),
+      ')',
+    ),
+
+    _unsafe_internal_modifier: _ => seq(
+      keyword('unsafe'),
+      '(',
+      keyword('internal'),
+      ')',
+    ),
+
+    _return_type: $ => choice(
+      $.type_specifier,
+      $.multi_return_type,
+    ),
+
+    _variable_declarator: $ => choice(
+      $.array_declarator,
+      $.init_declarator,
+      $.identifier,
+    ),
+
+    _local_variable_declarator: $ => choice(
+      $.array_declarator,
+      $.init_declarator,
+      $.identifier,
     ),
 
     // =========================================================================
@@ -382,10 +426,7 @@ module.exports = grammar({
 
     method_definition: $ => seq(
       optional($.member_modifiers),
-      field('type', optional(choice(
-        $.type_specifier,
-        $.multi_return_type,
-      ))),
+      field('type', $._return_type),
       field('name', $.identifier),
       field('parameters', $.parameter_list),
       optional($.const_qualifier),
@@ -419,6 +460,7 @@ module.exports = grammar({
 
     flag_definition: $ => seq(
       keyword('flagdef'),
+      optional(keyword('internal')),
       field('name', $.identifier),
       ':',
       field('field', $.identifier),
@@ -508,7 +550,7 @@ module.exports = grammar({
 
     states_options: $ => seq(
       '(',
-      commaSep($.identifier),
+      commaSep1($.identifier),
       ')',
     ),
 
@@ -665,35 +707,31 @@ module.exports = grammar({
     // =========================================================================
 
     function_definition: $ => seq(
-      $._declaration_specifiers,
+      optional($.member_modifiers),
+      field('type', $._return_type),
       field('declarator', $.function_declarator),
+      optional($.const_qualifier),
       field('body', $.compound_statement),
     ),
 
     // =========================================================================
-    // Declaration specifiers
+    // Global declarations
     // =========================================================================
 
-    _declaration_modifiers: $ => choice(
-      $.storage_class_specifier,
-      $.type_qualifier,
-    ),
-
-    _declaration_specifiers: $ => prec.right(seq(
-      repeat($._declaration_modifiers),
-      field('type', $.type_specifier),
-      repeat($._declaration_modifiers),
-    )),
-
-    storage_class_specifier: _ => choice(
-      keyword('static'),
-      keyword('extern'),
-    ),
-
-    type_qualifier: _ => choice(
-      keyword('const'),
-      keyword('in'),
-      keyword('out'),
+    _global_declaration: $ => choice(
+      seq(
+        optional($.member_modifiers),
+        field('type', $._return_type),
+        field('declarator', $.function_declarator),
+        optional($.const_qualifier),
+        ';',
+      ),
+      seq(
+        optional($.member_modifiers),
+        field('type', $.type_specifier),
+        commaSep1(field('declarator', $._variable_declarator)),
+        ';',
+      ),
     ),
 
     // =========================================================================
@@ -876,13 +914,14 @@ module.exports = grammar({
     ),
 
     parameter_declaration: $ => choice(
+      '...',
       seq(
         optional($.parameter_modifiers),
-        $._declaration_specifiers,
-        optional(field('declarator', $.declarator)),
+        field('type', $.type_specifier),
+        optional('&'),
+        field('declarator', $.identifier),
         optional(seq('=', field('default', $.expression))),
       ),
-      '...',
     ),
 
     parameter_modifiers: $ => prec.left(repeat1($.parameter_modifier)),
@@ -932,17 +971,15 @@ module.exports = grammar({
     _block_item: $ => choice(
       $.statement,
       $.static_const_array,
-      $.declaration,
+      alias($._local_declaration, $.declaration),
     ),
 
-    declaration: $ => seq(
-      choice(
-        $.let_destructuring_declaration,
-        seq(
-          $._declaration_specifiers,
-          commaSep1(field('declarator', $.declarator)),
-          ';',
-        ),
+    _local_declaration: $ => choice(
+      $.let_destructuring_declaration,
+      seq(
+        field('type', $.type_specifier),
+        commaSep1(field('declarator', $._local_variable_declarator)),
+        ';',
       ),
     ),
 
@@ -987,7 +1024,7 @@ module.exports = grammar({
     _switch_body_item: $ => choice(
       $.case_statement,
       $._non_case_statement,
-      $.declaration,
+      alias($._local_declaration, $.declaration),
     ),
 
     case_statement: $ => prec.right(seq(
@@ -996,7 +1033,7 @@ module.exports = grammar({
         keyword('default'),
       ),
       ':',
-      repeat(choice($._non_case_statement, $.declaration)),
+      repeat(choice($._non_case_statement, alias($._local_declaration, $.declaration))),
     )),
 
     while_statement: $ => seq(
@@ -1039,7 +1076,7 @@ module.exports = grammar({
       keyword('for'),
       '(',
       choice(
-        field('initializer', $.declaration),
+        field('initializer', alias($._local_declaration, $.declaration)),
         seq(field('initializer', optional($.expression)), ';'),
       ),
       field('condition', optional($.expression)),

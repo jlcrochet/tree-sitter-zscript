@@ -1,0 +1,176 @@
+================================================================================
+Class header accepts supported post-name flags
+================================================================================
+
+class Widget : Actor native ui play replaces Old.Widget version("4.12") sealed(alpha, beta) deprecated("4.13", "Use Other") {
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier
+        (identifier)))
+    (class_flags
+      (class_flag)
+      (class_flag)
+      (class_flag)
+      (class_flag
+        (type_identifier
+          (identifier)
+          (identifier)))
+      (class_flag
+        (string_literal
+          (string_content)))
+      (class_flag
+        (identifier)
+        (identifier))
+      (class_flag
+        (string_literal
+          (string_content))
+        (string_literal
+          (string_content))))))
+
+================================================================================
+Struct header accepts supported post-name flags
+================================================================================
+
+struct Data ui play clearscope native unsafe(internal) version("4.12") deprecated("4.13", "Use NewData") {
+    int value;
+};
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (struct_definition
+    name: (type_identifier)
+    (struct_flags
+      (struct_flag)
+      (struct_flag)
+      (struct_flag)
+      (struct_flag)
+      (struct_flag)
+      (struct_flag
+        (string_literal
+          (string_content)))
+      (struct_flag
+        (string_literal
+          (string_content))
+        (string_literal
+          (string_content))))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))))
+
+================================================================================
+Shared declarator modifiers stay on member and global declarators only
+================================================================================
+
+class Test : Actor {
+    deprecated("4.13") override int Field;
+    abstract int OtherField;
+    action(foo, bar) void Use(in out int value, int &ref) unsafe(const);
+
+    void Body() {
+        override int local;
+    }
+
+    flagdef internal InternalFlag : Flags, 1;
+}
+
+deprecated("4.13", "Use GlobalUse") override int GlobalField;
+abstract void GlobalUse() const {
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier
+        (identifier)))
+    (field_declaration
+      (member_modifiers
+        (member_modifier
+          (string_literal
+            (string_content)))
+        (member_modifier))
+      type: (primitive_type)
+      declarator: (identifier))
+    (field_declaration
+      (member_modifiers
+        (member_modifier))
+      type: (primitive_type)
+      declarator: (identifier))
+    (method_definition
+      (member_modifiers
+        (member_modifier
+          (states_options
+            (identifier)
+            (identifier))))
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          (parameter_modifiers
+            (parameter_modifier)
+            (parameter_modifier))
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier)))
+      (const_qualifier))
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (declaration
+          type: (type_identifier)
+          declarator: (identifier)
+          (ERROR
+            (identifier)))))
+    (flag_definition
+      name: (identifier)
+      field: (identifier)
+      bit: (number_literal)))
+  (declaration
+    (member_modifiers
+      (member_modifier
+        (string_literal
+          (string_content))
+        (string_literal
+          (string_content)))
+      (member_modifier))
+    type: (primitive_type)
+    declarator: (identifier))
+  (function_definition
+    (member_modifiers
+      (member_modifier))
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier)
+      parameters: (parameter_list))
+    (const_qualifier)
+    body: (compound_statement)))
+
+================================================================================
+Unsupported class header modifier is a syntax error
+================================================================================
+
+class Broken : Actor clearscope {
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier
+        (identifier)))
+    (ERROR)))
