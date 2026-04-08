@@ -102,6 +102,37 @@ class Test {
                 argument: (identifier)))))))))
 
 ================================================================================
+Until loop
+================================================================================
+
+class Test {
+    void Foo() {
+        until (count <= 0) {
+            count--;
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (until_statement
+          condition: (binary_expression
+            left: (identifier)
+            right: (number_literal))
+          body: (compound_statement
+            (expression_statement
+              (update_expression
+                argument: (identifier)))))))))
+
+================================================================================
 For loop
 ================================================================================
 
@@ -173,6 +204,37 @@ class Test {
             right: (number_literal)))))))
 
 ================================================================================
+Do-until loop
+================================================================================
+
+class Test {
+    void Foo() {
+        do {
+            x++;
+        } until (x >= 10);
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (do_until_statement
+          body: (compound_statement
+            (expression_statement
+              (update_expression
+                argument: (identifier))))
+          condition: (binary_expression
+            left: (identifier)
+            right: (number_literal)))))))
+
+================================================================================
 Switch statement
 ================================================================================
 
@@ -204,7 +266,7 @@ class Test {
       body: (compound_statement
         (switch_statement
           condition: (identifier)
-          body: (compound_statement
+          body: (switch_body
             (case_statement
               value: (number_literal)
               (expression_statement
@@ -326,3 +388,28 @@ class Test {
                 left: (identifier)
                 right: (number_literal))
               consequence: (break_statement))))))))
+
+================================================================================
+Return statement with parenthesized multiple values
+================================================================================
+
+class Test {
+    int Foo() {
+        return (0, 0);
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (return_statement
+          (return_value_list
+            (number_literal)
+            (number_literal)))))))

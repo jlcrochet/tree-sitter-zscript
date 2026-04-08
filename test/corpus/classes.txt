@@ -24,7 +24,8 @@ class MyActor : Actor {
   (class_definition
     name: (type_identifier)
     (inheritance_specifier
-      parent: (type_identifier))))
+      parent: (type_identifier
+        (identifier)))))
 
 ================================================================================
 Abstract class
@@ -54,7 +55,8 @@ class GameActor : Actor play abstract {
   (class_definition
     name: (type_identifier)
     (inheritance_specifier
-      parent: (type_identifier))
+      parent: (type_identifier
+        (identifier)))
     (class_flags
       (class_flag)
       (class_flag))))
@@ -100,7 +102,9 @@ class MyZombie : Actor replaces Zombieman {
   (class_definition
     name: (type_identifier)
     (inheritance_specifier
-      parent: (type_identifier))
+      parent: (type_identifier
+        (identifier)))
     (class_flags
       (class_flag
-        (type_identifier)))))
+        (type_identifier
+          (identifier))))))

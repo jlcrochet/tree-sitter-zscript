@@ -1,0 +1,723 @@
+================================================================================
+Fallback words in keyword and type contexts
+================================================================================
+
+class Test {
+    int backing;
+    property property : backing;
+
+    default {
+        property 1;
+    }
+
+    void Use(
+        bool p_bool,
+        byte p_byte,
+        color p_color,
+        double p_double,
+        float p_float,
+        int p_int,
+        int8 p_int8,
+        int16 p_int16,
+        map<string, int> p_map,
+        mapiterator<string, int> p_mapiterator,
+        name p_name,
+        sbyte p_sbyte,
+        short p_short,
+        sound p_sound,
+        state p_state,
+        statelabel p_statelabel,
+        string p_string,
+        uint p_uint,
+        uint8 p_uint8,
+        uint16 p_uint16,
+        ushort p_ushort,
+        vector2 p_vector2,
+        vector3 p_vector3
+    ) {
+        array<int> p_array;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    (property_definition
+      name: (identifier
+        (identifier))
+      field: (identifier))
+    (default_block
+      (default_property
+        (property_assignment
+          property: (property_identifier
+            (identifier
+              (identifier)))
+          value: (number_literal))))
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (map_type
+            key: (primitive_type)
+            value: (primitive_type))
+          declarator: (identifier))
+        (parameter_declaration
+          type: (mapiterator_type
+            key: (primitive_type)
+            value: (primitive_type))
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (sized_type_specifier)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier)))
+      body: (compound_statement
+        (declaration
+          type: (array_type
+            element: (primitive_type))
+          declarator: (identifier))))))
+
+================================================================================
+Fallback and remapped words as bare identifiers
+================================================================================
+
+class Default {
+    int default, color, property, sbyte, byte, short, ushort, int, uint;
+    int bool, float, double, vector2, vector3, name, sound, state, string;
+    int map, mapiterator, array, void, uint8, int8, uint16, int16, none;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier
+      (identifier))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier)))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier)))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier)))))
+
+================================================================================
+Fallback and remapped words in identifier-only positions
+================================================================================
+
+struct Property {
+    int value;
+}
+
+enum Color {
+    default,
+    property,
+    array,
+    map,
+    uint8,
+    int16,
+    none,
+}
+
+void none(int default, int property, int none) {
+    Observe(default: default, property: property, none: none);
+    owner.default = default;
+    owner.none = none;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (struct_definition
+    name: (type_identifier
+      (identifier))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier)))
+  (enum_definition
+    name: (type_identifier
+      (identifier))
+    (enumerator_list
+      (enumerator
+        name: (identifier
+          (identifier)))
+      (enumerator
+        name: (identifier
+          (identifier)))
+      (enumerator
+        name: (identifier
+          (identifier)))
+      (enumerator
+        name: (identifier
+          (identifier)))
+      (enumerator
+        name: (identifier
+          (identifier)))
+      (enumerator
+        name: (identifier
+          (identifier)))
+      (enumerator
+        name: (identifier
+          (identifier)))))
+  (function_definition
+    type: (primitive_type)
+    declarator: (function_declarator
+      declarator: (identifier
+        (identifier))
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier
+            (identifier)))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier
+            (identifier)))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier
+            (identifier)))))
+    body: (compound_statement
+      (expression_statement
+        (call_expression
+          function: (identifier)
+          arguments: (argument_list
+            (named_argument
+              name: (identifier
+                (identifier))
+              value: (identifier
+                (identifier)))
+            (named_argument
+              name: (identifier
+                (identifier))
+              value: (identifier
+                (identifier)))
+            (named_argument
+              name: (identifier
+                (identifier))
+              value: (identifier
+                (identifier))))))
+      (expression_statement
+        (assignment_expression
+          left: (field_expression
+            argument: (identifier)
+            field: (field_identifier
+              (identifier)))
+          right: (identifier
+            (identifier))))
+      (expression_statement
+        (assignment_expression
+          left: (field_expression
+            argument: (identifier)
+            field: (field_identifier
+              (identifier)))
+          right: (identifier
+            (identifier)))))))
+
+================================================================================
+Vector4 uses identifier-based type parsing
+================================================================================
+
+class Test {
+    vector4 value;
+    vector3 vector4;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      type: (type_identifier)
+      declarator: (identifier))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))))
+
+================================================================================
+State option words outside and inside state parsing
+================================================================================
+
+class Test : Actor {
+    int bright, fast, slow, ticadjust, nodelay, canraise, offset, light;
+
+    States {
+        Spawn:
+            TNT1 A 0 Bright Fast Slow TicAdjust NoDelay CanRaise Offset(1, 2) Light("fx");
+            Stop;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier
+        (identifier)))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      declarator: (identifier)
+      declarator: (identifier)
+      declarator: (identifier)
+      declarator: (identifier)
+      declarator: (identifier)
+      declarator: (identifier)
+      declarator: (identifier))
+    (states_block
+      (state_label
+        name: (state_label_name
+          (identifier))
+        body: (state_body
+          (state_line
+            sprite_frames: (state_sprite_frames)
+            duration: (number_literal)
+            (state_modifiers
+              (state_modifier)
+              (state_modifier)
+              (state_modifier)
+              (state_modifier)
+              (state_modifier)
+              (state_modifier)
+              (state_modifier
+                (number_literal)
+                (number_literal))
+              (state_modifier
+                (string_literal
+                  (string_content)))))
+          (state_flow))))))
+
+================================================================================
+Action is accepted in dottable-name contexts
+================================================================================
+
+class Test : Actor {
+    Default {
+        action.color 1;
+    }
+
+    States {
+        Spawn:
+            Goto action.more;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier
+        (identifier)))
+    (default_block
+      (default_property
+        (property_assignment
+          property: (property_identifier
+            (identifier)
+            (identifier
+              (identifier)))
+          value: (number_literal))))
+    (states_block
+      (state_label
+        name: (state_label_name
+          (identifier))
+        body: (state_body
+          (state_flow
+            (goto_state_flow
+              target: (state_goto_target
+                (dottable_name
+                  (identifier)
+                  (identifier))))))))))
+
+================================================================================
+Action, states, and state-mode names stay contextual
+================================================================================
+
+class T : action.more replaces action.more {
+    States(foo, default, none) {
+        if:
+            Goto super::default;
+    }
+
+    class<action.more> ref;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier
+        (identifier)
+        (identifier)))
+    (class_flags
+      (class_flag
+        (type_identifier
+          (identifier)
+          (identifier))))
+    (states_block
+      (states_options
+        (identifier)
+        (identifier
+          (identifier))
+        (identifier
+          (identifier)))
+      (state_label
+        name: (state_label_name
+          (identifier))
+        body: (state_body
+          (state_flow
+            (goto_state_flow
+              target: (state_goto_target
+                class: (state_goto_qualifier
+                  (type_identifier))
+                (dottable_name
+                  (identifier
+                    (identifier)))))))))
+    (field_declaration
+      type: (class_type
+        (type_identifier
+          (identifier)
+          (identifier)))
+      declarator: (identifier))))
+
+================================================================================
+Reserved keywords parse only in their dedicated contexts
+================================================================================
+
+class Test : Actor final sealed(default, none) {
+    norollback virtualscope unsafe(clearscope) action(foo, default) void Use(function<ui int(int, out string)> cb) unsafe(const) {
+        let value = nullptr;
+        super.Tick();
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier
+        (identifier)))
+    (class_flags
+      (class_flag)
+      (class_flag
+        (identifier
+          (identifier))
+        (identifier
+          (identifier))))
+    (method_definition
+      (member_modifiers
+        (member_modifier)
+        (member_modifier)
+        (member_modifier)
+        (member_modifier
+          (states_options
+            (identifier)
+            (identifier
+              (identifier)))))
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (function_type
+            (function_scope)
+            (primitive_type)
+            (function_type_parameter
+              (primitive_type))
+            (function_type_parameter
+              (function_parameter_modifiers)
+              (primitive_type)))
+          declarator: (identifier)))
+      (const_qualifier)
+      body: (compound_statement
+        (declaration
+          type: (primitive_type)
+          declarator: (init_declarator
+            declarator: (identifier)
+            value: (null)))
+        (expression_statement
+          (call_expression
+            function: (field_expression
+              argument: (super_expression)
+              field: (field_identifier))
+            arguments: (argument_list)))))))
+
+================================================================================
+Optional remains unsupported as a parameter keyword
+================================================================================
+
+class Test {
+    void Use(optional int value);
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      type: (primitive_type)
+      declarator: (function_declarator
+        declarator: (identifier)
+        parameters: (parameter_list
+          (parameter_declaration
+            type: (type_identifier)
+            declarator: (identifier
+              (identifier)))
+          (ERROR))))))
+
+================================================================================
+Reserved parser keywords remain syntax errors in bare-name positions
+================================================================================
+
+class T {
+    int if;
+    int action;
+    int states;
+    int super;
+    int function;
+    int final;
+    int sizeof;
+    int is;
+    int sealed;
+    int unsafe;
+    int virtualscope;
+    int norollback;
+    int cross;
+    int dot;
+    int nullptr;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      (ERROR))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      (ERROR))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier
+        (identifier))
+      (ERROR))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      (ERROR))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      (ERROR))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      (ERROR))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      (ERROR))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      (ERROR))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      (ERROR))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      (ERROR))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      (ERROR))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      (ERROR))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      (ERROR))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      (ERROR))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      (ERROR))))
+
+================================================================================
+Scanner-only keywords remain syntax errors
+================================================================================
+
+class T {
+    char value;
+    auto other;
+    ulong third;
+    var fourth;
+    volatile fifth;
+    long sixth;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      type: (type_identifier)
+      declarator: (identifier)
+      (ERROR))
+    (field_declaration
+      type: (type_identifier)
+      declarator: (identifier)
+      (ERROR))
+    (field_declaration
+      type: (type_identifier)
+      declarator: (identifier)
+      (ERROR))
+    (field_declaration
+      type: (type_identifier)
+      declarator: (identifier)
+      (ERROR))
+    (field_declaration
+      type: (type_identifier)
+      declarator: (identifier)
+      (ERROR))
+    (field_declaration
+      type: (type_identifier)
+      declarator: (identifier)
+      (ERROR))))

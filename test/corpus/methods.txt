@@ -57,7 +57,8 @@ class Test : Actor {
   (class_definition
     name: (type_identifier)
     (inheritance_specifier
-      parent: (type_identifier))
+      parent: (type_identifier
+        (identifier)))
     (method_definition
       (member_modifiers
         (member_modifier))
@@ -177,7 +178,8 @@ class Test : Actor {
   (class_definition
     name: (type_identifier)
     (inheritance_specifier
-      parent: (type_identifier))
+      parent: (type_identifier
+        (identifier)))
     (method_definition
       (member_modifiers
         (member_modifier))
@@ -191,3 +193,92 @@ class Test : Actor {
             arguments: (argument_list
               (string_literal
                 (string_content)))))))))
+
+================================================================================
+Method with multiple return types
+================================================================================
+
+class Test {
+    action bool, int IsHoldingBarrel() {
+        return true, 1;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      (member_modifiers
+        (member_modifier))
+      type: (multi_return_type
+        (primitive_type)
+        (primitive_type))
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (return_statement
+          (return_value_list
+            (true)
+            (number_literal)))))))
+
+================================================================================
+Shadowable built-in names in method positions
+================================================================================
+
+class Test {
+    void property(int default, int array) {
+        default = array;
+        owner.default = array;
+        Call(default: default, property: array);
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier
+        (identifier))
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier
+            (identifier)))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier
+            (identifier))))
+      body: (compound_statement
+        (expression_statement
+          (assignment_expression
+            left: (identifier
+              (identifier))
+            right: (identifier
+              (identifier))))
+        (expression_statement
+          (assignment_expression
+            left: (field_expression
+              argument: (identifier)
+              field: (field_identifier
+                (identifier)))
+            right: (identifier
+              (identifier))))
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list
+              (named_argument
+                name: (identifier
+                  (identifier))
+                value: (identifier
+                  (identifier)))
+              (named_argument
+                name: (identifier
+                  (identifier))
+                value: (identifier
+                  (identifier))))))))))

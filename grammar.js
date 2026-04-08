@@ -31,6 +31,117 @@ const PREC = {
   SUBSCRIPT: 17,
 };
 
+const SHADOWABLE_IDENTIFIER_WORDS = [
+  'array',
+  'bool',
+  'byte',
+  'color',
+  'default',
+  'double',
+  'float',
+  'int',
+  'int8',
+  'int16',
+  'map',
+  'mapiterator',
+  'name',
+  'none',
+  'property',
+  'sbyte',
+  'short',
+  'sound',
+  'state',
+  'string',
+  'uint',
+  'uint8',
+  'uint16',
+  'ushort',
+  'vector2',
+  'vector3',
+  'void',
+];
+
+const RESERVED_WORDS = [
+  ...SHADOWABLE_IDENTIFIER_WORDS,
+  'abstract',
+  'action',
+  'alignof',
+  'auto',
+  'break',
+  'case',
+  'char',
+  'class',
+  'clearscope',
+  'const',
+  'cross',
+  'continue',
+  'deprecated',
+  'do',
+  'dot',
+  'else',
+  'enum',
+  'extend',
+  'extern',
+  'fail',
+  'false',
+  'final',
+  'flagdef',
+  'for',
+  'foreach',
+  'function',
+  'goto',
+  'if',
+  'in',
+  'internal',
+  'is',
+  'latent',
+  'let',
+  'long',
+  'loop',
+  'meta',
+  'mixin',
+  'native',
+  'norollback',
+  'null',
+  'nullptr',
+  'out',
+  'override',
+  'play',
+  'private',
+  'protected',
+  'readonly',
+  'replaces',
+  'return',
+  'sealed',
+  'sizeof',
+  'states',
+  'static',
+  'stop',
+  'struct',
+  'super',
+  'switch',
+  'transient',
+  'true',
+  'ui',
+  'ulong',
+  'unsafe',
+  'var',
+  'vararg',
+  'version',
+  'virtual',
+  'virtualscope',
+  'volatile',
+  'wait',
+  'while',
+];
+
+const STATE_FLOW_WORDS = ['goto', 'stop', 'wait', 'fail', 'loop'];
+const STATE_LABEL_KEYWORD_WORDS = RESERVED_WORDS.filter(
+  word => !SHADOWABLE_IDENTIFIER_WORDS.includes(word) && !STATE_FLOW_WORDS.includes(word)
+);
+
+const NON_RESERVED_IDENTIFIER_PATTERN = buildIdentifierPattern(RESERVED_WORDS);
+
 module.exports = grammar({
   name: "zscript",
 
@@ -39,7 +150,9 @@ module.exports = grammar({
     [$.method_definition, $.type_specifier],
     [$.type_qualifier, $.parameter_modifier],
     [$.method_definition, $.declarator],
+    [$.static_const_array, $.storage_class_specifier],
     [$.vector_literal],
+    [$.return_value_list, $.vector_literal],
   ],
 
   extras: $ => [
@@ -62,7 +175,7 @@ module.exports = grammar({
     $.declarator,
   ],
 
-  word: $ => $.identifier,
+  word: $ => $._word_identifier,
 
   rules: {
     source_file: $ => repeat($._top_level_item),
@@ -114,19 +227,21 @@ module.exports = grammar({
 
     inheritance_specifier: $ => seq(
       ':',
-      field('parent', $._type_identifier),
+      field('parent', $._dottable_type_identifier),
     ),
 
     class_flags: $ => repeat1($.class_flag),
 
     class_flag: $ => choice(
       keyword('abstract'),
+      keyword('final'),
       keyword('play'),
       keyword('ui'),
       keyword('clearscope'),
       keyword('native'),
       keyword('replaces'),
-      seq(keyword('replaces'), $._type_identifier),
+      seq(keyword('replaces'), $._dottable_type_identifier),
+      seq(keyword('sealed'), '(', commaSep($.identifier), ')'),
       seq(keyword('version'), '(', $.string_literal, ')'),
     ),
 
@@ -245,16 +360,19 @@ module.exports = grammar({
       keyword('internal'),
       keyword('latent'),
       keyword('final'),
+      keyword('norollback'),
       keyword('static'),
       keyword('play'),
       keyword('ui'),
       keyword('clearscope'),
+      keyword('virtualscope'),
+      seq(keyword('unsafe'), '(', keyword('clearscope'), ')'),
       keyword('action'),
+      seq(keyword('action'), $.states_options),
       keyword('override'),
       keyword('virtual'),
       keyword('vararg'),
       seq(keyword('version'), '(', $.string_literal, ')'),
-      seq('(', commaSep($.identifier), ')'), // action qualifiers like (actor caller)
     ),
 
     // =========================================================================
@@ -263,7 +381,10 @@ module.exports = grammar({
 
     method_definition: $ => seq(
       optional($.member_modifiers),
-      field('type', optional($.type_specifier)),
+      field('type', optional(choice(
+        $.type_specifier,
+        $.multi_return_type,
+      ))),
       field('name', $.identifier),
       field('parameters', $.parameter_list),
       optional($.const_qualifier),
@@ -273,7 +394,15 @@ module.exports = grammar({
       ),
     ),
 
-    const_qualifier: _ => keyword('const'),
+    const_qualifier: _ => choice(
+      keyword('const'),
+      seq(keyword('unsafe'), '(', keyword('const'), ')'),
+    ),
+
+    multi_return_type: $ => prec.right(seq(
+      $.type_specifier,
+      repeat1(seq(',', $.type_specifier)),
+    )),
 
     // =========================================================================
     // Property and Flag definitions
@@ -346,19 +475,19 @@ module.exports = grammar({
     ),
 
     property_identifier: $ => seq(
-      $.identifier,
-      optional(seq('.', $.identifier)),
+      $._dottable_identifier,
+      optional(seq('.', $._dottable_identifier)),
     ),
 
     flag_statement: $ => seq(
       field('sign', choice('+', '-')),
       field('flag', $.flag_name),
-      ';',
+      optional(';'),
     ),
 
     flag_name: $ => seq(
-      $.identifier,
-      optional(seq('.', $.identifier)),
+      $._dottable_identifier,
+      optional(seq('.', $._dottable_identifier)),
     ),
 
     // =========================================================================
@@ -381,8 +510,8 @@ module.exports = grammar({
 
     _states_body_item: $ => choice(
       $.state_label,
-      $.state_line,
       $.state_flow,
+      $.state_line,
     ),
 
     // A state label followed by its body (state lines and flow control)
@@ -395,42 +524,81 @@ module.exports = grammar({
 
     // The body of a state label - contains state lines and optionally ends with flow control
     state_body: $ => prec.right(repeat1(choice(
-      $.state_line,
       $.state_flow,
+      $.state_line,
     ))),
 
     state_label_name: $ => seq(
-      $.identifier,
-      repeat(seq('.', $.identifier)),
+      $._state_label_segment,
+      repeat(seq('.', $._state_label_segment)),
     ),
 
-    state_line: $ => prec.right(seq(
-      field('sprite_frames', $.state_sprite_frames),
-      field('duration', $._state_duration),
-      optional($.state_modifiers),
-      optional($.state_action),
-      optional(';'),
+    state_line: $ => prec.right(choice(
+      seq(
+        field('sprite_frames', $._state_sprite_frames),
+        field('duration', $._state_duration),
+        optional($.state_modifiers),
+        field('action', $.compound_statement),
+      ),
+      seq(
+        field('sprite_frames', $._state_sprite_frames),
+        field('duration', $._state_duration),
+        optional($.state_modifiers),
+        optional($.state_action_call),
+        ';',
+      ),
     )),
 
+    _state_sprite_frames: $ => choice(
+      $.state_sprite_frames,
+      $.quoted_state_sprite_frames,
+      $.mixed_quoted_state_sprite_frames,
+    ),
+
     // Combined state sprite + frames as a SINGLE token
-    // This prevents ambiguity with 4-uppercase-letter state labels like "SHRL:"
+    // This prevents ambiguity with 4-letter state labels like "SHRL:"
     // because the entire "TROO A" or "TNT1 ABCD" is matched as one token.
     // If followed by ':', it won't match this pattern and will fall through to identifier.
     //
     // Pattern breakdown:
-    // - ("####"|"[A-Z0-9_]{4}"|####|[A-Z0-9_]{4}) - sprite part
+    // - ("[^"\\r\\n]{4}"|"[A-Za-z0-9_]{4}"|####|[A-Za-z0-9_]{4}) - sprite part
     // - [ \t]+ - required whitespace
-    // - [A-Z0-9\[\]\\#]+ - frame characters
-    state_sprite_frames: _ => token(seq(
+    // - ("[^"\\r\\n]+"|[A-Za-z0-9\[\]\\#]+) - frame characters
+    state_sprite_frames: _ => token(prec(1, seq(
       choice(
-        /"####"/,
-        /"[A-Z0-9_]{4}"/,
         /####/,
-        /[A-Z0-9_]{4}/,
+        // Exclude the exact unquoted state-flow spellings so `Goto Ready;`
+        // and similar lines parse as flow control instead of sprite/frame pairs.
+        /[A-EH-KM-RT-VX-Za-eh-km-rt-vx-z0-9_][A-Za-z0-9_]{3}/,
+        /[Gg][^Oo][A-Za-z0-9_]{2}/,
+        /[Gg][Oo][^Tt][A-Za-z0-9_]/,
+        /[Gg][Oo][Tt][^Oo]/,
+        /[Ss][^Tt][A-Za-z0-9_]{2}/,
+        /[Ss][Tt][^Oo][A-Za-z0-9_]/,
+        /[Ss][Tt][Oo][^Pp]/,
+        /[Ww][^Aa][A-Za-z0-9_]{2}/,
+        /[Ww][Aa][^Ii][A-Za-z0-9_]/,
+        /[Ww][Aa][Ii][^Tt]/,
+        /[Ff][^Aa][A-Za-z0-9_]{2}/,
+        /[Ff][Aa][^Ii][A-Za-z0-9_]/,
+        /[Ff][Aa][Ii][^Ll]/,
+        /[Ll][^Oo][A-Za-z0-9_]{2}/,
+        /[Ll][Oo][^Oo][A-Za-z0-9_]/,
+        /[Ll][Oo][Oo][^Pp]/,
       ),
       /[ \t]+/,
-      /[A-Z0-9\[\]\\#]+/,
-    )),
+      /[A-Za-z0-9\[\]\\#]+/,
+    ))),
+
+    quoted_state_sprite_frames: $ => seq(
+      $.string_literal,
+      choice(
+        $.string_literal,
+        alias(token(/[A-Za-z0-9\[\]\\#]+/), $.state_frame_chars),
+      ),
+    ),
+
+    mixed_quoted_state_sprite_frames: _ => token(prec(1, /[A-Za-z0-9_#]{4}[ \t]+"[^"\r\n]+"/)),
 
     _state_duration: $ => choice(
       $.number_literal,
@@ -444,6 +612,7 @@ module.exports = grammar({
       keyword('bright'),
       keyword('fast'),
       keyword('slow'),
+      keyword('ticadjust'),
       keyword('nodelay'),
       keyword('canraise'),
       seq(keyword('light'), '(', commaSep1($.string_literal), ')'),
@@ -461,17 +630,30 @@ module.exports = grammar({
     ),
 
     state_flow: $ => choice(
-      seq(keyword('loop'), optional(';')),
-      seq(keyword('stop'), optional(';')),
-      seq(keyword('wait'), optional(';')),
-      seq(keyword('fail'), optional(';')),
-      seq(keyword('goto'), field('target', $.state_goto_target), optional(';')),
+      seq(keyword('loop'), ';'),
+      seq(keyword('stop'), ';'),
+      seq(keyword('wait'), ';'),
+      seq(keyword('fail'), ';'),
+      $.goto_state_flow,
     ),
 
+    goto_state_flow: $ => prec(3, seq(
+      // Give `goto` a higher lexical precedence than `state_sprite_frames`
+      // so lines like `Goto Ready;` parse as flow control, not sprite frames.
+      keywordWithPrecedence('goto', 2),
+      field('target', $.state_goto_target),
+      ';',
+    )),
+
     state_goto_target: $ => seq(
-      optional(seq(field('class', $._type_identifier), '::')),
-      $.state_label_name,
-      optional(seq('+', $.number_literal)),
+      optional(seq(field('class', $.state_goto_qualifier), '::')),
+      $.dottable_name,
+      optional(seq(optional(/[ \t]+/), '+', optional(/[ \t]+/), $.number_literal)),
+    ),
+
+    state_goto_qualifier: $ => choice(
+      $._type_identifier,
+      alias(token(prec(-1, wordPattern('super'))), $.type_identifier),
     ),
 
     // =========================================================================
@@ -521,6 +703,7 @@ module.exports = grammar({
       $.array_type,
       $.map_type,
       $.mapiterator_type,
+      $.function_type,
       $._type_identifier,
       $.readonly_type,
     ),
@@ -528,17 +711,18 @@ module.exports = grammar({
     primitive_type: _ => choice(
       keyword('void'),
       keyword('bool'),
+      keyword('byte'),
       keyword('int'),
       keyword('uint'),
       keyword('float'),
       keyword('double'),
+      keyword('sbyte'),
       keyword('string'),
       keyword('name'),
       keyword('sound'),
       keyword('color'),
       keyword('vector2'),
       keyword('vector3'),
-      keyword('vector4'),
       keyword('state'),
       keyword('statelabel'),
       keyword('spriteid'),
@@ -548,23 +732,22 @@ module.exports = grammar({
       keyword('int16'),
       keyword('uint8'),
       keyword('uint16'),
+      keyword('ushort'),
       keyword('let'),
-      keyword('var'),
     ),
 
-    sized_type_specifier: $ => seq(
+    sized_type_specifier: $ => prec.right(seq(
       repeat1(choice(
         keyword('signed'),
         keyword('unsigned'),
         keyword('short'),
-        keyword('long'),
       )),
       optional($.primitive_type),
-    ),
+    )),
 
     class_type: $ => prec(-1, seq(
       keyword('class'),
-      optional(seq('<', $._type_identifier, '>')),
+      optional(seq('<', $._dottable_type_identifier, '>')),
     )),
 
     array_type: $ => seq(
@@ -598,6 +781,40 @@ module.exports = grammar({
       field('type', $.type_specifier),
       '>',
     ),
+
+    function_type: $ => seq(
+      keyword('function'),
+      '<',
+      choice(
+        keyword('void'),
+        seq(
+          optional($.function_scope),
+          $.type_specifier,
+          repeat(seq(',', $.type_specifier)),
+          '(',
+          optional(commaSep($.function_type_parameter)),
+          ')',
+        ),
+      ),
+      '>',
+    ),
+
+    function_scope: _ => choice(
+      keyword('ui'),
+      keyword('play'),
+      keyword('clearscope'),
+    ),
+
+    function_type_parameter: $ => seq(
+      optional($.function_parameter_modifiers),
+      $.type_specifier,
+      optional('&'),
+    ),
+
+    function_parameter_modifiers: $ => repeat1(choice(
+      keyword('in'),
+      keyword('out'),
+    )),
 
     // =========================================================================
     // Declarators
@@ -673,7 +890,6 @@ module.exports = grammar({
     // =========================================================================
 
     statement: $ => choice(
-      $.case_statement,
       $._non_case_statement,
     ),
 
@@ -684,7 +900,9 @@ module.exports = grammar({
       $.if_statement,
       $.switch_statement,
       $.do_statement,
+      $.do_until_statement,
       $.while_statement,
+      $.until_statement,
       $.for_statement,
       $.foreach_statement,
       $.return_statement,
@@ -705,8 +923,9 @@ module.exports = grammar({
     ),
 
     _block_item: $ => choice(
-      $.declaration,
       $.statement,
+      $.static_const_array,
+      $.declaration,
     ),
 
     declaration: $ => seq(
@@ -736,7 +955,19 @@ module.exports = grammar({
       '(',
       field('condition', $.expression),
       ')',
-      field('body', $.compound_statement),
+      field('body', $.switch_body),
+    ),
+
+    switch_body: $ => seq(
+      '{',
+      repeat($._switch_body_item),
+      '}',
+    ),
+
+    _switch_body_item: $ => choice(
+      $.case_statement,
+      $._non_case_statement,
+      $.declaration,
     ),
 
     case_statement: $ => prec.right(seq(
@@ -756,10 +987,28 @@ module.exports = grammar({
       field('body', $.statement),
     ),
 
+    until_statement: $ => seq(
+      keyword('until'),
+      '(',
+      field('condition', $.expression),
+      ')',
+      field('body', $.statement),
+    ),
+
     do_statement: $ => seq(
       keyword('do'),
       field('body', $.statement),
       keyword('while'),
+      '(',
+      field('condition', $.expression),
+      ')',
+      ';',
+    ),
+
+    do_until_statement: $ => seq(
+      keyword('do'),
+      field('body', $.statement),
+      keyword('until'),
       '(',
       field('condition', $.expression),
       ')',
@@ -792,8 +1041,24 @@ module.exports = grammar({
 
     return_statement: $ => seq(
       keyword('return'),
-      optional($.expression),
+      optional(choice(
+        $.return_value_list,
+        $.expression,
+      )),
       ';',
+    ),
+
+    return_value_list: $ => choice(
+      prec.right(seq(
+        $.expression,
+        repeat1(seq(',', $.expression)),
+      )),
+      seq(
+        '(',
+        commaSep1($.expression),
+        optional(','),
+        ')',
+      ),
     ),
 
     break_statement: _ => seq(
@@ -823,6 +1088,7 @@ module.exports = grammar({
       $.subscript_expression,
       $.call_expression,
       $.field_expression,
+      $.super_expression,
       $.identifier,
       $.number_literal,
       $.string_literal,
@@ -833,13 +1099,7 @@ module.exports = grammar({
       $.parenthesized_expression,
       $.vector_literal,
       $.random_expression,
-      $.getclass_expression,
       $.name_literal,
-      $.super_expression,
-      $.self_expression,
-      $.invoker_expression,
-      $.state_expression,
-      $.type_member_expression,
     ),
 
     conditional_expression: $ => prec.right(PREC.CONDITIONAL, seq(
@@ -863,9 +1123,19 @@ module.exports = grammar({
     // Array destructuring pattern: [a, b] = expr
     array_pattern: $ => seq(
       '[',
-      commaSep1($.identifier),
+      commaSep1($._array_pattern_element),
       ']',
     ),
+
+    _array_pattern_element: $ => choice(
+      $.identifier,
+      $.dotted_array_pattern_target,
+    ),
+
+    dotted_array_pattern_target: _ => token(seq(
+      /[a-zA-Z_][a-zA-Z0-9_]*/,
+      repeat1(seq('.', /[a-zA-Z_][a-zA-Z0-9_]*/)),
+    )),
 
     assignment_expression: $ => prec.right(PREC.ASSIGNMENT, seq(
       field('left', $._assignment_left_expression),
@@ -1041,41 +1311,13 @@ module.exports = grammar({
       ')',
     )),
 
-    getclass_expression: _ => prec(PREC.CALL, seq(
-      keyword('getclass'),
-      '(',
-      ')',
-    )),
-
     name_literal: _ => seq(
       "'",
       optional(token.immediate(/[^'\n]*/)),
       "'",
     ),
 
-    super_expression: _ => keyword('super'),
-
-    self_expression: _ => keyword('self'),
-
-    invoker_expression: _ => keyword('invoker'),
-
-    state_expression: $ => prec(PREC.CALL, seq(
-      keyword('resolvestate'),
-      '(',
-      field('state', choice($.string_literal, $.null)),
-      ')',
-    )),
-
-    // Type member access - for accessing static members like Double.NaN, Float.Infinity
-    // Limited to specific types to avoid conflicts with identifier expressions
-    type_member_expression: $ => prec(PREC.FIELD, seq(
-      field('type', choice(
-        keyword('double'),
-        keyword('float'),
-      )),
-      '.',
-      field('member', $._field_identifier),
-    )),
+    super_expression: _ => keywordWithPrecedence('super', 1),
 
     // =========================================================================
     // Initializer list
@@ -1150,13 +1392,47 @@ module.exports = grammar({
 
     true: _ => keyword('true', true),
     false: _ => keyword('false', true),
-    null: _ => keyword('null', true),
+    null: _ => choice(
+      keyword('null', true),
+      keyword('nullptr', true),
+    ),
 
     // =========================================================================
     // Identifiers
     // =========================================================================
 
-    identifier: _ => /[a-zA-Z_][a-zA-Z0-9_]*/,
+    identifier: $ => choice(
+      $._word_identifier,
+      $._shadowable_identifier,
+    ),
+
+    _word_identifier: _ => NON_RESERVED_IDENTIFIER_PATTERN,
+
+    _shadowable_identifier: $ => choice(
+      ...SHADOWABLE_IDENTIFIER_WORDS.map(word => keywordIdentifier($, word)),
+    ),
+
+    _dottable_identifier: $ => choice(
+      $.identifier,
+      keywordIdentifier($, 'action'),
+    ),
+
+    _state_identifier: $ => choice(
+      $.identifier,
+      keywordIdentifier($, 'states'),
+    ),
+
+    _state_label_segment: $ => choice(
+      $.identifier,
+      ...STATE_LABEL_KEYWORD_WORDS.map(word => keywordIdentifier($, word)),
+    ),
+
+    dottable_name: $ => seq(
+      $._dottable_identifier,
+      repeat(seq('.', $._dottable_identifier)),
+    ),
+
+    _dottable_type_identifier: $ => alias($.dottable_name, $.type_identifier),
 
     _type_identifier: $ => alias($.identifier, $.type_identifier),
     _field_identifier: $ => alias($.identifier, $.field_identifier),
@@ -1189,11 +1465,42 @@ module.exports = grammar({
  * @returns {RegExp|AliasRule}
  */
 function keyword(word, hidden = false) {
-  const re = new RegExp(word, 'i')
+  const re = wordPattern(word)
   if (hidden)
     return re
   else
     return alias(re, word)
+}
+
+/**
+ * Creates a case-insensitive keyword token with explicit lexical precedence.
+ * Use this when a keyword would otherwise lose to a longer regex token.
+ * @param {string} word
+ * @param {number} precedence
+ * @returns {AliasRule}
+ */
+function keywordWithPrecedence(word, precedence) {
+  return alias(token(prec(precedence, wordPattern(word))), word)
+}
+
+/**
+ * Creates a case-insensitive identifier token for reserved words that are
+ * accepted in specific identifier positions.
+ * @param {*} $
+ * @param {string} word
+ * @returns {AliasRule}
+ */
+function keywordIdentifier($, word) {
+  return alias(token(prec(-1, wordPattern(word))), $.identifier)
+}
+
+/**
+ * Creates a case-insensitive word pattern.
+ * @param {string} word
+ * @returns {RegExp}
+ */
+function wordPattern(word) {
+  return new RegExp(word, 'i')
 }
 
 /**
@@ -1212,4 +1519,82 @@ function commaSep(rule) {
  */
 function commaSep1(rule) {
   return seq(rule, repeat(seq(',', rule)));
+}
+
+function buildIdentifierPattern(reservedWords) {
+  const firstChars = [...'abcdefghijklmnopqrstuvwxyz_'];
+  const restChars = [...'abcdefghijklmnopqrstuvwxyz0123456789_'];
+  const trie = buildWordTrie(reservedWords.map(word => word.toLowerCase()));
+
+  return new RegExp(buildPatternFromTrie(trie, firstChars, restChars), 'i');
+}
+
+function buildWordTrie(words) {
+  const root = createTrieNode();
+
+  for (const word of words) {
+    let node = root;
+    for (const char of word) {
+      if (!node.children.has(char))
+        node.children.set(char, createTrieNode());
+      node = node.children.get(char);
+    }
+    node.terminal = true;
+  }
+
+  return root;
+}
+
+function createTrieNode() {
+  return {
+    terminal: false,
+    children: new Map(),
+  };
+}
+
+function buildPatternFromTrie(root, firstChars, restChars) {
+  const restTail = `${charClass(restChars)}*`;
+  const parts = [];
+  const rootChildren = [...root.children.keys()];
+  const rootComplement = subtractChars(firstChars, rootChildren);
+
+  if (rootComplement.length > 0)
+    parts.push(`${charClass(rootComplement)}${restTail}`);
+
+  for (const char of rootChildren)
+    parts.push(`${char}${buildTrieSuffix(root.children.get(char), restChars, restTail)}`);
+
+  return nonCapturingChoice(parts);
+}
+
+function buildTrieSuffix(node, alphabet, tailPattern) {
+  const parts = [];
+  const childChars = [...node.children.keys()];
+  const complement = subtractChars(alphabet, childChars);
+
+  if (complement.length > 0)
+    parts.push(`${charClass(complement)}${tailPattern}`);
+
+  for (const char of childChars)
+    parts.push(`${char}${buildTrieSuffix(node.children.get(char), alphabet, tailPattern)}`);
+
+  if (parts.length === 0)
+    return '';
+
+  return node.terminal ? nonCapturingChoice(parts) : `(?:${nonCapturingChoice(parts)})?`;
+}
+
+function subtractChars(alphabet, excluded) {
+  const excludedSet = new Set(excluded);
+  return alphabet.filter(char => !excludedSet.has(char));
+}
+
+function charClass(chars) {
+  return `[${chars.join('')}]`;
+}
+
+function nonCapturingChoice(parts) {
+  if (parts.length === 1)
+    return parts[0];
+  return `(?:${parts.join('|')})`;
 }

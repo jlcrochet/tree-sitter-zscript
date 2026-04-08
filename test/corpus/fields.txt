@@ -191,3 +191,24 @@ class Test {
       name: (identifier)
       field: (identifier)
       field: (identifier))))
+
+================================================================================
+Initialized array declaration
+================================================================================
+
+class Test {
+    static const int Values[] = { 1, 2, 3 };
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (static_const_array
+      type: (primitive_type)
+      name: (identifier)
+      (initializer_list
+        (number_literal)
+        (number_literal)
+        (number_literal)))))

@@ -138,7 +138,8 @@ class Test {
       body: (compound_statement
         (if_statement
           condition: (binary_expression
-            left: (identifier)
+            left: (identifier
+              (identifier))
             right: (string_literal
               (string_content)))
           consequence: (compound_statement))))))
@@ -189,7 +190,8 @@ class Test : Actor {
   (class_definition
     name: (type_identifier)
     (inheritance_specifier
-      parent: (type_identifier))
+      parent: (type_identifier
+        (identifier)))
     (method_definition
       type: (primitive_type)
       name: (identifier)
@@ -198,10 +200,10 @@ class Test : Actor {
         (expression_statement
           (assignment_expression
             left: (field_expression
-              argument: (self_expression)
+              argument: (identifier)
               field: (field_identifier))
             right: (field_expression
-              argument: (invoker_expression)
+              argument: (identifier)
               field: (field_identifier))))))))
 
 ================================================================================
@@ -302,13 +304,123 @@ class Test : Actor {
   (class_definition
     name: (type_identifier)
     (inheritance_specifier
-      parent: (type_identifier))
+      parent: (type_identifier
+        (identifier)))
     (method_definition
       type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
         (return_statement
-          (state_expression
-            state: (string_literal
-              (string_content))))))))
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list
+              (string_literal
+                (string_content)))))))))
+
+================================================================================
+ResolveState with statelabel variable
+================================================================================
+
+class Test : Actor {
+    action State Foo(statelabel noAmmo) {
+        return ResolveState(noAmmo);
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier
+        (identifier)))
+    (method_definition
+      (member_modifiers
+        (member_modifier))
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier)))
+      body: (compound_statement
+        (return_statement
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list
+              (identifier))))))))
+
+================================================================================
+Primitive conversion expression
+================================================================================
+
+class Test {
+    void Foo() {
+        double step = 40 / double(4);
+        uint value = uint(step);
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (declaration
+          type: (primitive_type)
+          declarator: (init_declarator
+            declarator: (identifier)
+            value: (binary_expression
+              left: (number_literal)
+              right: (call_expression
+                function: (identifier
+                  (identifier))
+                arguments: (argument_list
+                  (number_literal))))))
+        (declaration
+          type: (primitive_type)
+          declarator: (init_declarator
+            declarator: (identifier)
+            value: (call_expression
+              function: (identifier
+                (identifier))
+              arguments: (argument_list
+                (identifier)))))))))
+
+================================================================================
+Array destructuring into field expressions
+================================================================================
+
+class Test {
+    void Foo() {
+        [invoker.InvActor, invoker.integer] = LineAttack(angle, 4096);
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (expression_statement
+          (assignment_expression
+            left: (array_pattern
+              (dotted_array_pattern_target)
+              (dotted_array_pattern_target))
+            right: (call_expression
+              function: (identifier)
+              arguments: (argument_list
+                (identifier)
+                (number_literal)))))))))

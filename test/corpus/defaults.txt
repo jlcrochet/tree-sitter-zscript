@@ -16,7 +16,8 @@ class Test : Actor {
   (class_definition
     name: (type_identifier)
     (inheritance_specifier
-      parent: (type_identifier))
+      parent: (type_identifier
+        (identifier)))
     (default_block
       (default_property
         (property_assignment
@@ -51,7 +52,8 @@ class Test : Weapon {
   (class_definition
     name: (type_identifier)
     (inheritance_specifier
-      parent: (type_identifier))
+      parent: (type_identifier
+        (identifier)))
     (default_block
       (default_property
         (property_assignment
@@ -84,7 +86,8 @@ class Test : Actor {
   (class_definition
     name: (type_identifier)
     (inheritance_specifier
-      parent: (type_identifier))
+      parent: (type_identifier
+        (identifier)))
     (default_block
       (default_property
         (flag_statement
@@ -112,7 +115,8 @@ class Test : Actor {
   (class_definition
     name: (type_identifier)
     (inheritance_specifier
-      parent: (type_identifier))
+      parent: (type_identifier
+        (identifier)))
     (default_block
       (default_property
         (flag_statement
@@ -143,7 +147,8 @@ class Test : Actor {
   (class_definition
     name: (type_identifier)
     (inheritance_specifier
-      parent: (type_identifier))
+      parent: (type_identifier
+        (identifier)))
     (default_block
       (default_property
         (property_assignment
@@ -170,6 +175,41 @@ class Test : Actor {
           value: (number_literal))))))
 
 ================================================================================
+Default with flags without semicolons
+================================================================================
+
+class Test : Actor {
+    Default {
+        +SOLID
+        +INVENTORY.IGNORESKILL
+        -NOGRAVITY
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier
+        (identifier)))
+    (default_block
+      (default_property
+        (flag_statement
+          flag: (flag_name
+            (identifier))))
+      (default_property
+        (flag_statement
+          flag: (flag_name
+            (identifier)
+            (identifier))))
+      (default_property
+        (flag_statement
+          flag: (flag_name
+            (identifier)))))))
+
+================================================================================
 Default with string property
 ================================================================================
 
@@ -186,7 +226,8 @@ class Test : Actor {
   (class_definition
     name: (type_identifier)
     (inheritance_specifier
-      parent: (type_identifier))
+      parent: (type_identifier
+        (identifier)))
     (default_block
       (default_property
         (property_assignment
@@ -217,7 +258,8 @@ class Test : Actor {
   (class_definition
     name: (type_identifier)
     (inheritance_specifier
-      parent: (type_identifier))
+      parent: (type_identifier
+        (identifier)))
     (default_block
       (default_property
         (flag_statement

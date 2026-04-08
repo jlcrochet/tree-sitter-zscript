@@ -101,7 +101,8 @@ class Test {
   (class_definition
     name: (type_identifier)
     (enum_definition
-      name: (type_identifier)
+      name: (type_identifier
+        (identifier))
       (enumerator_list
         (enumerator
           name: (identifier))
