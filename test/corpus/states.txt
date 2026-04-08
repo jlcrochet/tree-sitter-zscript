@@ -613,3 +613,46 @@ class Test : Actor {
           (identifier))
         body: (state_body
           (state_flow))))))
+
+================================================================================
+Goto with trailing whitespace and goto-prefixed labels
+================================================================================
+
+class Test : Actor {
+    States {
+        Pain:
+            Goto See    ;
+        GotoDeath:
+            TNT1 A 0 A_Die;
+            Stop;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier
+        (identifier)))
+    (states_block
+      (state_label
+        name: (state_label_name
+          (identifier))
+        body: (state_body
+          (state_flow
+            (goto_state_flow
+              target: (state_goto_target
+                (dottable_name
+                  (identifier)))))))
+      (state_label
+        name: (state_label_name
+          (identifier))
+        body: (state_body
+          (state_line
+            sprite_frames: (state_sprite_frames)
+            duration: (number_literal)
+            (state_action_call
+              function: (identifier)))
+          (state_flow))))))

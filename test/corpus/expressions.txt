@@ -137,11 +137,10 @@ class Test {
       parameters: (parameter_list)
       body: (compound_statement
         (if_statement
-          condition: (binary_expression
-            left: (identifier
-              (identifier))
-            right: (string_literal
-              (string_content)))
+          (ERROR
+            (primitive_type))
+          condition: (string_literal
+            (string_content))
           consequence: (compound_statement))))))
 
 ================================================================================
@@ -380,8 +379,7 @@ class Test {
             value: (binary_expression
               left: (number_literal)
               right: (call_expression
-                function: (identifier
-                  (identifier))
+                function: (primitive_type)
                 arguments: (argument_list
                   (number_literal))))))
         (declaration
@@ -389,10 +387,63 @@ class Test {
           declarator: (init_declarator
             declarator: (identifier)
             value: (call_expression
-              function: (identifier
-                (identifier))
+              function: (primitive_type)
               arguments: (argument_list
                 (identifier)))))))))
+
+================================================================================
+Primitive member access and constructor-like calls
+================================================================================
+
+class Test {
+    void Foo() {
+        string msg = string.format("%s", "hi");
+        double value = Double.NaN;
+        color tint = Color(255, 1, 2, 3);
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement
+        (declaration
+          type: (primitive_type)
+          declarator: (init_declarator
+            declarator: (identifier)
+            value: (call_expression
+              function: (field_expression
+                argument: (primitive_type)
+                field: (field_identifier))
+              arguments: (argument_list
+                (string_literal
+                  (string_content))
+                (string_literal
+                  (string_content))))))
+        (declaration
+          type: (primitive_type)
+          declarator: (init_declarator
+            declarator: (identifier)
+            value: (field_expression
+              argument: (primitive_type)
+              field: (field_identifier))))
+        (declaration
+          type: (primitive_type)
+          declarator: (init_declarator
+            declarator: (identifier)
+            value: (call_expression
+              function: (primitive_type)
+              arguments: (argument_list
+                (number_literal)
+                (number_literal)
+                (number_literal)
+                (number_literal)))))))))
 
 ================================================================================
 Array destructuring into field expressions

@@ -621,10 +621,9 @@ class T {
       type: (primitive_type)
       declarator: (identifier)
       (ERROR))
-    (field_declaration
-      type: (primitive_type)
-      declarator: (identifier)
-      (ERROR))
+    (ERROR
+      (primitive_type)
+      (identifier))
     (field_declaration
       type: (primitive_type)
       declarator: (identifier

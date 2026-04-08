@@ -266,3 +266,30 @@ class Test : Actor {
           flag: (flag_name
             (identifier)
             (identifier)))))))
+
+================================================================================
+Default with empty statement
+================================================================================
+
+class Test : Actor {
+    Default {
+        +SOLID;
+        ;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier
+        (identifier)))
+    (default_block
+      (default_property
+        (flag_statement
+          flag: (flag_name
+            (identifier))))
+      (default_property
+        (empty_default_statement)))))

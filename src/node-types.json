@@ -597,6 +597,14 @@
           {
             "type": "expression",
             "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          },
+          {
+            "type": "sized_type_specifier",
+            "named": true
           }
         ]
       }
@@ -958,7 +966,7 @@
     "fields": {
       "declarator": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "declarator",
@@ -968,7 +976,7 @@
       },
       "type": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "type_specifier",
@@ -981,6 +989,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "let_destructuring_declaration",
+          "named": true
+        },
         {
           "type": "storage_class_specifier",
           "named": true
@@ -1015,6 +1027,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "empty_default_statement",
+          "named": true
+        },
         {
           "type": "flag_statement",
           "named": true
@@ -1107,6 +1123,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "empty_default_statement",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "enum_base_type",
@@ -1255,6 +1276,14 @@
         "types": [
           {
             "type": "expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          },
+          {
+            "type": "sized_type_specifier",
             "named": true
           }
         ]
@@ -1699,6 +1728,10 @@
         "required": true,
         "types": [
           {
+            "type": "array_declarator",
+            "named": true
+          },
+          {
             "type": "identifier",
             "named": true
           }
@@ -1763,6 +1796,32 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "let_destructuring_declaration",
+    "named": true,
+    "fields": {
+      "pattern": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_pattern",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {

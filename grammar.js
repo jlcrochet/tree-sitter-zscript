@@ -350,6 +350,7 @@ module.exports = grammar({
     member_modifiers: $ => prec.left(repeat1($.member_modifier)),
 
     member_modifier: $ => choice(
+      keyword('abstract'),
       keyword('native'),
       keyword('meta'),
       keyword('transient'),
@@ -466,7 +467,10 @@ module.exports = grammar({
     default_property: $ => choice(
       $.property_assignment,
       $.flag_statement,
+      $.empty_default_statement,
     ),
+
+    empty_default_statement: _ => ';',
 
     property_assignment: $ => seq(
       field('property', $.property_identifier),
@@ -479,11 +483,11 @@ module.exports = grammar({
       optional(seq('.', $._dottable_identifier)),
     ),
 
-    flag_statement: $ => seq(
+    flag_statement: $ => prec.right(seq(
       field('sign', choice('+', '-')),
       field('flag', $.flag_name),
       optional(';'),
-    ),
+    )),
 
     flag_name: $ => seq(
       $._dottable_identifier,
@@ -638,18 +642,18 @@ module.exports = grammar({
     ),
 
     goto_state_flow: $ => prec(3, seq(
-      // Give `goto` a higher lexical precedence than `state_sprite_frames`
-      // so lines like `Goto Ready;` parse as flow control, not sprite frames.
-      keywordWithPrecedence('goto', 2),
+      // Require trailing horizontal whitespace so labels like `GotoDeath:`
+      // are not mis-tokenized as a `goto` flow statement.
+      alias(token(prec(2, /[Gg][Oo][Tt][Oo][ \t]+/)), 'goto'),
       field('target', $.state_goto_target),
-      ';',
+      alias(token(seq(/[ \t]*/, ';')), ';'),
     )),
 
-    state_goto_target: $ => seq(
+    state_goto_target: $ => prec.right(seq(
       optional(seq(field('class', $.state_goto_qualifier), '::')),
       $.dottable_name,
-      optional(seq(optional(/[ \t]+/), '+', optional(/[ \t]+/), $.number_literal)),
-    ),
+      optional(seq('+', $.number_literal)),
+    )),
 
     state_goto_qualifier: $ => choice(
       $._type_identifier,
@@ -853,7 +857,10 @@ module.exports = grammar({
     ),
 
     init_declarator: $ => prec(1, seq(
-      field('declarator', $.identifier),
+      field('declarator', choice(
+        $.identifier,
+        $.array_declarator,
+      )),
       '=',
       field('value', choice($.expression, $.initializer_list)),
     )),
@@ -929,8 +936,21 @@ module.exports = grammar({
     ),
 
     declaration: $ => seq(
-      $._declaration_specifiers,
-      commaSep1(field('declarator', $.declarator)),
+      choice(
+        $.let_destructuring_declaration,
+        seq(
+          $._declaration_specifiers,
+          commaSep1(field('declarator', $.declarator)),
+          ';',
+        ),
+      ),
+    ),
+
+    let_destructuring_declaration: $ => seq(
+      keyword('let'),
+      field('pattern', $.array_pattern),
+      '=',
+      field('value', $.expression),
       ';',
     ),
 
@@ -1245,7 +1265,11 @@ module.exports = grammar({
     )),
 
     call_expression: $ => prec(PREC.CALL, seq(
-      field('function', $.expression),
+      field('function', choice(
+        $.expression,
+        $.primitive_type,
+        $.sized_type_specifier,
+      )),
       field('arguments', $.argument_list),
     )),
 
@@ -1266,7 +1290,11 @@ module.exports = grammar({
 
     field_expression: $ => seq(
       prec(PREC.FIELD, seq(
-        field('argument', $.expression),
+        field('argument', choice(
+          $.expression,
+          $.primitive_type,
+          $.sized_type_specifier,
+        )),
         field('operator', '.'),
       )),
       field('field', $._field_identifier),
