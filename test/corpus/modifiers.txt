@@ -61,7 +61,8 @@ struct Data ui play clearscope native unsafe(internal) version("4.12") deprecate
         (string_literal
           (string_content))))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))))
 
 ================================================================================
@@ -98,12 +99,14 @@ abstract void GlobalUse() const {
           (string_literal
             (string_content)))
         (member_modifier))
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))
     (field_declaration
       (member_modifiers
         (member_modifier))
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))
     (method_definition
       (member_modifiers
@@ -111,21 +114,25 @@ abstract void GlobalUse() const {
           (states_options
             (identifier)
             (identifier))))
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list
         (parameter_declaration
           (parameter_modifiers
             (parameter_modifier)
             (parameter_modifier))
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier)))
       (const_qualifier))
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -133,7 +140,7 @@ abstract void GlobalUse() const {
           type: (type_identifier)
           declarator: (identifier)
           (ERROR
-            (identifier)))))
+            (primitive_type)))))
     (flag_definition
       name: (identifier)
       field: (identifier)
@@ -146,12 +153,14 @@ abstract void GlobalUse() const {
         (string_literal
           (string_content)))
       (member_modifier))
-    type: (primitive_type)
+    type: (type_identifier
+      (identifier))
     declarator: (identifier))
   (function_definition
     (member_modifiers
       (member_modifier))
-    type: (primitive_type)
+    type: (type_identifier
+      (identifier))
     declarator: (function_declarator
       declarator: (identifier)
       parameters: (parameter_list))

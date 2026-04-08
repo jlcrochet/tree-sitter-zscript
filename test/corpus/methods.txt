@@ -13,9 +13,68 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
+      body: (compound_statement))))
+
+================================================================================
+Method with explicit void parameter list
+================================================================================
+
+class Test {
+    void Tick(void) {
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (method_definition
+      type: (type_identifier
+        (identifier))
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement))))
+
+================================================================================
+Method with shadowable parameter name
+================================================================================
+
+class Test : Actor {
+    action void A_FlashOverlay(int layer = -3, statelabel state = "MuzzleFlash") {
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (inheritance_specifier
+      parent: (type_identifier
+        (identifier)))
+    (method_definition
+      (member_modifiers
+        (member_modifier))
+      type: (type_identifier
+        (identifier))
+      name: (identifier)
+      parameters: (parameter_list
+        (parameter_declaration
+          type: (type_identifier
+            (identifier))
+          declarator: (identifier)
+          default: (number_literal))
+        (parameter_declaration
+          type: (primitive_type)
+          declarator: (identifier
+            (identifier))
+          default: (string_literal
+            (string_content))))
       body: (compound_statement))))
 
 ================================================================================
@@ -34,7 +93,8 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -62,7 +122,8 @@ class Test : Actor {
     (method_definition
       (member_modifiers
         (member_modifier))
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -90,7 +151,8 @@ class Test {
     (method_definition
       (member_modifiers
         (member_modifier))
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement))))
@@ -113,17 +175,21 @@ class Math {
     (method_definition
       (member_modifiers
         (member_modifier))
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier)))
       body: (compound_statement
         (return_statement
@@ -155,7 +221,8 @@ class Test {
       (member_modifiers
         (member_modifier)
         (member_modifier))
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -183,7 +250,8 @@ class Test : Actor {
     (method_definition
       (member_modifiers
         (member_modifier))
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -213,8 +281,10 @@ class Test {
       (member_modifiers
         (member_modifier))
       type: (multi_return_type
-        (primitive_type)
-        (primitive_type))
+        (type_identifier
+          (identifier))
+        (type_identifier
+          (identifier)))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -241,16 +311,19 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier
         (identifier))
       parameters: (parameter_list
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier
             (identifier)))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier
             (identifier))))
       body: (compound_statement

@@ -61,6 +61,29 @@ const SHADOWABLE_IDENTIFIER_WORDS = [
   'void',
 ];
 
+const SHADOWABLE_PRIMITIVE_TYPE_WORDS = [
+  'bool',
+  'byte',
+  'color',
+  'double',
+  'float',
+  'int',
+  'int8',
+  'int16',
+  'name',
+  'sbyte',
+  'sound',
+  'state',
+  'string',
+  'uint',
+  'uint8',
+  'uint16',
+  'ushort',
+  'vector2',
+  'vector3',
+  'void',
+];
+
 const RESERVED_WORDS = [
   ...SHADOWABLE_IDENTIFIER_WORDS,
   'abstract',
@@ -151,6 +174,7 @@ module.exports = grammar({
     [$._return_type, $._global_declaration],
     [$.vector_literal],
     [$.return_value_list, $.vector_literal],
+    [$.primitive_type, $._shadowable_identifier],
   ],
 
   extras: $ => [
@@ -750,31 +774,12 @@ module.exports = grammar({
       $.readonly_type,
     ),
 
-    primitive_type: _ => choice(
-      keyword('void'),
-      keyword('bool'),
-      keyword('byte'),
-      keyword('int'),
-      keyword('uint'),
-      keyword('float'),
-      keyword('double'),
-      keyword('sbyte'),
-      keyword('string'),
-      keyword('name'),
-      keyword('sound'),
-      keyword('color'),
-      keyword('vector2'),
-      keyword('vector3'),
-      keyword('state'),
+    primitive_type: $ => choice(
+      ...SHADOWABLE_PRIMITIVE_TYPE_WORDS.map(word => primitiveTypeAlias($, word)),
       keyword('statelabel'),
       keyword('spriteid'),
       keyword('textureid'),
       keyword('voidptr'),
-      keyword('int8'),
-      keyword('int16'),
-      keyword('uint8'),
-      keyword('uint16'),
-      keyword('ushort'),
       keyword('let'),
     ),
 
@@ -909,7 +914,10 @@ module.exports = grammar({
 
     parameter_list: $ => seq(
       '(',
-      optional(commaSep($.parameter_declaration)),
+      optional(choice(
+        keyword('void'),
+        commaSep($.parameter_declaration),
+      )),
       ')',
     ),
 
@@ -1557,6 +1565,10 @@ function keywordWithPrecedence(word, precedence) {
  */
 function keywordIdentifier($, word) {
   return alias(token(prec(-1, wordPattern(word))), $.identifier)
+}
+
+function primitiveTypeAlias($, word) {
+  return alias(token(prec(-1, wordPattern(word))), $.primitive_type)
 }
 
 /**

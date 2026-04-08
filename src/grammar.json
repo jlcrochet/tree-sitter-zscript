@@ -2925,152 +2925,342 @@
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "void",
-            "flags": "i"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "bool",
+                "flags": "i"
+              }
+            }
           },
-          "named": false,
-          "value": "void"
+          "named": true,
+          "value": "primitive_type"
         },
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "bool",
-            "flags": "i"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "byte",
+                "flags": "i"
+              }
+            }
           },
-          "named": false,
-          "value": "bool"
+          "named": true,
+          "value": "primitive_type"
         },
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "byte",
-            "flags": "i"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "color",
+                "flags": "i"
+              }
+            }
           },
-          "named": false,
-          "value": "byte"
+          "named": true,
+          "value": "primitive_type"
         },
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "int",
-            "flags": "i"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "double",
+                "flags": "i"
+              }
+            }
           },
-          "named": false,
-          "value": "int"
+          "named": true,
+          "value": "primitive_type"
         },
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "uint",
-            "flags": "i"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "float",
+                "flags": "i"
+              }
+            }
           },
-          "named": false,
-          "value": "uint"
+          "named": true,
+          "value": "primitive_type"
         },
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "float",
-            "flags": "i"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "int",
+                "flags": "i"
+              }
+            }
           },
-          "named": false,
-          "value": "float"
+          "named": true,
+          "value": "primitive_type"
         },
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "double",
-            "flags": "i"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "int8",
+                "flags": "i"
+              }
+            }
           },
-          "named": false,
-          "value": "double"
+          "named": true,
+          "value": "primitive_type"
         },
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "sbyte",
-            "flags": "i"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "int16",
+                "flags": "i"
+              }
+            }
           },
-          "named": false,
-          "value": "sbyte"
+          "named": true,
+          "value": "primitive_type"
         },
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "string",
-            "flags": "i"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "name",
+                "flags": "i"
+              }
+            }
           },
-          "named": false,
-          "value": "string"
+          "named": true,
+          "value": "primitive_type"
         },
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "name",
-            "flags": "i"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "sbyte",
+                "flags": "i"
+              }
+            }
           },
-          "named": false,
-          "value": "name"
+          "named": true,
+          "value": "primitive_type"
         },
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "sound",
-            "flags": "i"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "sound",
+                "flags": "i"
+              }
+            }
           },
-          "named": false,
-          "value": "sound"
+          "named": true,
+          "value": "primitive_type"
         },
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "color",
-            "flags": "i"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "state",
+                "flags": "i"
+              }
+            }
           },
-          "named": false,
-          "value": "color"
+          "named": true,
+          "value": "primitive_type"
         },
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "vector2",
-            "flags": "i"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "string",
+                "flags": "i"
+              }
+            }
           },
-          "named": false,
-          "value": "vector2"
+          "named": true,
+          "value": "primitive_type"
         },
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "vector3",
-            "flags": "i"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "uint",
+                "flags": "i"
+              }
+            }
           },
-          "named": false,
-          "value": "vector3"
+          "named": true,
+          "value": "primitive_type"
         },
         {
           "type": "ALIAS",
           "content": {
-            "type": "PATTERN",
-            "value": "state",
-            "flags": "i"
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "uint8",
+                "flags": "i"
+              }
+            }
           },
-          "named": false,
-          "value": "state"
+          "named": true,
+          "value": "primitive_type"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "uint16",
+                "flags": "i"
+              }
+            }
+          },
+          "named": true,
+          "value": "primitive_type"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "ushort",
+                "flags": "i"
+              }
+            }
+          },
+          "named": true,
+          "value": "primitive_type"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "vector2",
+                "flags": "i"
+              }
+            }
+          },
+          "named": true,
+          "value": "primitive_type"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "vector3",
+                "flags": "i"
+              }
+            }
+          },
+          "named": true,
+          "value": "primitive_type"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": -1,
+              "content": {
+                "type": "PATTERN",
+                "value": "void",
+                "flags": "i"
+              }
+            }
+          },
+          "named": true,
+          "value": "primitive_type"
         },
         {
           "type": "ALIAS",
@@ -3111,56 +3301,6 @@
           },
           "named": false,
           "value": "voidptr"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "int8",
-            "flags": "i"
-          },
-          "named": false,
-          "value": "int8"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "int16",
-            "flags": "i"
-          },
-          "named": false,
-          "value": "int16"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "uint8",
-            "flags": "i"
-          },
-          "named": false,
-          "value": "uint8"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "uint16",
-            "flags": "i"
-          },
-          "named": false,
-          "value": "uint16"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "ushort",
-            "flags": "i"
-          },
-          "named": false,
-          "value": "ushort"
         },
         {
           "type": "ALIAS",
@@ -3843,32 +3983,47 @@
               "type": "CHOICE",
               "members": [
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "parameter_declaration"
-                    },
-                    {
-                      "type": "REPEAT",
-                      "content": {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": ","
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "parameter_declaration"
-                          }
-                        ]
-                      }
-                    }
-                  ]
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "void",
+                    "flags": "i"
+                  },
+                  "named": false,
+                  "value": "void"
                 },
                 {
-                  "type": "BLANK"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "parameter_declaration"
+                        },
+                        {
+                          "type": "REPEAT",
+                          "content": {
+                            "type": "SEQ",
+                            "members": [
+                              {
+                                "type": "STRING",
+                                "value": ","
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "parameter_declaration"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
                 }
               ]
             },
@@ -9235,6 +9390,10 @@
     [
       "return_value_list",
       "vector_literal"
+    ],
+    [
+      "primitive_type",
+      "_shadowable_identifier"
     ]
   ],
   "precedences": [],

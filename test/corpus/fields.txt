@@ -12,7 +12,8 @@ class Test {
   (class_definition
     name: (type_identifier)
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))))
 
 ================================================================================
@@ -29,7 +30,8 @@ class Test {
   (class_definition
     name: (type_identifier)
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier)
       declarator: (identifier)
       declarator: (identifier))))
@@ -50,7 +52,8 @@ class Test {
     (field_declaration
       (member_modifiers
         (member_modifier))
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))))
 
 ================================================================================
@@ -88,7 +91,8 @@ class Test {
     (field_declaration
       (member_modifiers
         (member_modifier))
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))))
 
 ================================================================================
@@ -107,7 +111,8 @@ class Test {
     (field_declaration
       (member_modifiers
         (member_modifier))
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))))
 
 ================================================================================
@@ -124,7 +129,8 @@ class Test {
   (class_definition
     name: (type_identifier)
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (init_declarator
         declarator: (identifier)
         value: (number_literal)))))
@@ -143,7 +149,8 @@ class Test {
   (class_definition
     name: (type_identifier)
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (array_declarator
         declarator: (identifier)
         size: (number_literal)))))
@@ -163,7 +170,8 @@ class Test {
   (class_definition
     name: (type_identifier)
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))
     (property_definition
       name: (identifier)
@@ -184,7 +192,8 @@ class Test {
   (class_definition
     name: (type_identifier)
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier)
       declarator: (identifier))
     (property_definition
@@ -206,7 +215,8 @@ class Test {
   (class_definition
     name: (type_identifier)
     (static_const_array
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       (initializer_list
         (number_literal)

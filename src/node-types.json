@@ -2228,7 +2228,17 @@
   {
     "type": "primitive_type",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "primitive_type",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "property_assignment",
@@ -3471,19 +3481,11 @@
     "named": false
   },
   {
-    "type": "bool",
-    "named": false
-  },
-  {
     "type": "break",
     "named": false
   },
   {
     "type": "bright",
-    "named": false
-  },
-  {
-    "type": "byte",
     "named": false
   },
   {
@@ -3500,10 +3502,6 @@
   },
   {
     "type": "clearscope",
-    "named": false
-  },
-  {
-    "type": "color",
     "named": false
   },
   {
@@ -3544,10 +3542,6 @@
     "named": true
   },
   {
-    "type": "double",
-    "named": false
-  },
-  {
     "type": "else",
     "named": false
   },
@@ -3584,10 +3578,6 @@
     "named": false
   },
   {
-    "type": "float",
-    "named": false
-  },
-  {
     "type": "for",
     "named": false
   },
@@ -3617,18 +3607,6 @@
   },
   {
     "type": "in",
-    "named": false
-  },
-  {
-    "type": "int",
-    "named": false
-  },
-  {
-    "type": "int16",
-    "named": false
-  },
-  {
-    "type": "int8",
     "named": false
   },
   {
@@ -3673,10 +3651,6 @@
   },
   {
     "type": "mixin",
-    "named": false
-  },
-  {
-    "type": "name",
     "named": false
   },
   {
@@ -3748,10 +3722,6 @@
     "named": false
   },
   {
-    "type": "sbyte",
-    "named": false
-  },
-  {
     "type": "sealed",
     "named": false
   },
@@ -3772,15 +3742,7 @@
     "named": false
   },
   {
-    "type": "sound",
-    "named": false
-  },
-  {
     "type": "spriteid",
-    "named": false
-  },
-  {
-    "type": "state",
     "named": false
   },
   {
@@ -3805,10 +3767,6 @@
   },
   {
     "type": "stop",
-    "named": false
-  },
-  {
-    "type": "string",
     "named": false
   },
   {
@@ -3848,18 +3806,6 @@
     "named": false
   },
   {
-    "type": "uint",
-    "named": false
-  },
-  {
-    "type": "uint16",
-    "named": false
-  },
-  {
-    "type": "uint8",
-    "named": false
-  },
-  {
     "type": "unsafe",
     "named": false
   },
@@ -3872,19 +3818,7 @@
     "named": false
   },
   {
-    "type": "ushort",
-    "named": false
-  },
-  {
     "type": "vararg",
-    "named": false
-  },
-  {
-    "type": "vector2",
-    "named": false
-  },
-  {
-    "type": "vector3",
     "named": false
   },
   {

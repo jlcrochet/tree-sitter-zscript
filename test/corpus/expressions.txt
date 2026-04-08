@@ -14,12 +14,14 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
         (declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (init_declarator
             declarator: (identifier)
             value: (random_expression
@@ -42,12 +44,14 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
         (declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (init_declarator
             declarator: (identifier)
             value: (random_expression
@@ -71,12 +75,14 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
         (declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (init_declarator
             declarator: (identifier)
             value: (random_expression
@@ -99,12 +105,14 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
         (declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (init_declarator
             declarator: (identifier)
             value: (binary_expression
@@ -132,15 +140,17 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
         (if_statement
-          (ERROR
-            (primitive_type))
-          condition: (string_literal
-            (string_content))
+          condition: (binary_expression
+            left: (identifier
+              (identifier))
+            right: (string_literal
+              (string_content)))
           consequence: (compound_statement))))))
 
 ================================================================================
@@ -159,7 +169,8 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list
         (parameter_declaration
@@ -192,7 +203,8 @@ class Test : Actor {
       parent: (type_identifier
         (identifier)))
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -221,7 +233,8 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -249,12 +262,14 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
         (declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (init_declarator
             declarator: (identifier)
             value: (conditional_expression
@@ -277,12 +292,14 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
         (declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (init_declarator
             declarator: (identifier)
             value: (name_literal)))))))
@@ -306,7 +323,8 @@ class Test : Actor {
       parent: (type_identifier
         (identifier)))
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -338,7 +356,8 @@ class Test : Actor {
     (method_definition
       (member_modifiers
         (member_modifier))
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list
         (parameter_declaration
@@ -368,26 +387,31 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
         (declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (init_declarator
             declarator: (identifier)
             value: (binary_expression
               left: (number_literal)
               right: (call_expression
-                function: (primitive_type)
+                function: (primitive_type
+                  (primitive_type))
                 arguments: (argument_list
                   (number_literal))))))
         (declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (init_declarator
             declarator: (identifier)
             value: (call_expression
-              function: (primitive_type)
+              function: (primitive_type
+                (primitive_type))
               arguments: (argument_list
                 (identifier)))))))))
 
@@ -409,17 +433,20 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
         (declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (init_declarator
             declarator: (identifier)
             value: (call_expression
               function: (field_expression
-                argument: (primitive_type)
+                argument: (primitive_type
+                  (primitive_type))
                 field: (field_identifier))
               arguments: (argument_list
                 (string_literal
@@ -427,18 +454,22 @@ class Test {
                 (string_literal
                   (string_content))))))
         (declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (init_declarator
             declarator: (identifier)
             value: (field_expression
-              argument: (primitive_type)
+              argument: (primitive_type
+                (primitive_type))
               field: (field_identifier))))
         (declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (init_declarator
             declarator: (identifier)
             value: (call_expression
-              function: (primitive_type)
+              function: (primitive_type
+                (primitive_type))
               arguments: (argument_list
                 (number_literal)
                 (number_literal)
@@ -461,7 +492,8 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement

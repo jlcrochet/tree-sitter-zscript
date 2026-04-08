@@ -45,7 +45,8 @@ class Test {
   (class_definition
     name: (type_identifier)
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))
     (property_definition
       name: (identifier
@@ -59,86 +60,111 @@ class Test {
               (identifier)))
           value: (number_literal))))
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
           type: (map_type
-            key: (primitive_type)
-            value: (primitive_type))
+            key: (type_identifier
+              (identifier))
+            value: (type_identifier
+              (identifier)))
           declarator: (identifier))
         (parameter_declaration
           type: (mapiterator_type
-            key: (primitive_type)
-            value: (primitive_type))
+            key: (type_identifier
+              (identifier))
+            value: (type_identifier
+              (identifier)))
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
           type: (sized_type_specifier)
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
+          declarator: (identifier))
+        (parameter_declaration
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
           type: (primitive_type)
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier))
         (parameter_declaration
-          type: (primitive_type)
-          declarator: (identifier))
-        (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier)))
       body: (compound_statement
         (declaration
           type: (array_type
-            element: (primitive_type))
+            element: (type_identifier
+              (identifier)))
           declarator: (identifier))))))
 
 ================================================================================
@@ -158,27 +184,8 @@ class Default {
     name: (type_identifier
       (identifier))
     (field_declaration
-      type: (primitive_type)
-      declarator: (identifier
+      type: (type_identifier
         (identifier))
-      declarator: (identifier
-        (identifier))
-      declarator: (identifier
-        (identifier))
-      declarator: (identifier
-        (identifier))
-      declarator: (identifier
-        (identifier))
-      declarator: (identifier
-        (identifier))
-      declarator: (identifier
-        (identifier))
-      declarator: (identifier
-        (identifier))
-      declarator: (identifier
-        (identifier)))
-    (field_declaration
-      type: (primitive_type)
       declarator: (identifier
         (identifier))
       declarator: (identifier
@@ -198,7 +205,29 @@ class Default {
       declarator: (identifier
         (identifier)))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier))
+      declarator: (identifier
+        (identifier)))
+    (field_declaration
+      type: (type_identifier
+        (identifier))
       declarator: (identifier
         (identifier))
       declarator: (identifier
@@ -249,7 +278,8 @@ void none(int default, int property, int none) {
     name: (type_identifier
       (identifier))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier)))
   (enum_definition
     name: (type_identifier
@@ -277,21 +307,25 @@ void none(int default, int property, int none) {
         name: (identifier
           (identifier)))))
   (function_definition
-    type: (primitive_type)
+    type: (type_identifier
+      (identifier))
     declarator: (function_declarator
       declarator: (identifier
         (identifier))
       parameters: (parameter_list
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier
             (identifier)))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier
             (identifier)))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier
+            (identifier))
           declarator: (identifier
             (identifier)))))
     body: (compound_statement
@@ -349,7 +383,8 @@ class Test {
       type: (type_identifier)
       declarator: (identifier))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))))
 
 ================================================================================
@@ -375,7 +410,8 @@ class Test : Actor {
       parent: (type_identifier
         (identifier)))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier)
       declarator: (identifier)
       declarator: (identifier)
@@ -539,18 +575,22 @@ class Test : Actor final sealed(default, none) {
             (identifier)
             (identifier
               (identifier)))))
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list
         (parameter_declaration
           type: (function_type
             (function_scope)
-            (primitive_type)
+            (type_identifier
+              (identifier))
             (function_type_parameter
-              (primitive_type))
+              (type_identifier
+                (identifier)))
             (function_type_parameter
               (function_parameter_modifiers)
-              (primitive_type)))
+              (type_identifier
+                (identifier))))
           declarator: (identifier)))
       (const_qualifier)
       body: (compound_statement
@@ -580,7 +620,8 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       name: (identifier)
       parameters: (parameter_list
         (parameter_declaration
@@ -617,63 +658,77 @@ class T {
   (class_definition
     name: (type_identifier)
     (field_declaration
-      type: (primitive_type)
-      declarator: (identifier)
-      (ERROR))
-    (ERROR
-      (primitive_type)
-      (identifier))
-    (field_declaration
-      type: (primitive_type)
-      declarator: (identifier
+      type: (type_identifier
         (identifier))
-      (ERROR))
-    (field_declaration
-      type: (primitive_type)
       declarator: (identifier)
       (ERROR))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
+      (ERROR
+        (identifier)
+        (identifier
+          (identifier))
+        (primitive_type))
+      declarator: (identifier))
+    (field_declaration
+      type: (type_identifier
+        (identifier))
       declarator: (identifier)
       (ERROR))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier)
       (ERROR))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier)
       (ERROR))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier)
       (ERROR))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier)
       (ERROR))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier)
       (ERROR))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier)
       (ERROR))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier)
       (ERROR))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier)
       (ERROR))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier)
       (ERROR))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
+      declarator: (identifier)
+      (ERROR))
+    (field_declaration
+      type: (type_identifier
+        (identifier))
       declarator: (identifier)
       (ERROR))))
 

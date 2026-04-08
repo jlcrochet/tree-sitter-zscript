@@ -25,43 +25,56 @@ class Test {
   (class_definition
     name: (type_identifier)
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier))
     (field_declaration
       type: (primitive_type)
@@ -82,7 +95,8 @@ class Test {
     name: (type_identifier)
     (field_declaration
       type: (array_type
-        element: (primitive_type))
+        element: (type_identifier
+          (identifier)))
       declarator: (identifier))))
 
 ================================================================================
@@ -100,8 +114,10 @@ class Test {
     name: (type_identifier)
     (field_declaration
       type: (map_type
-        key: (primitive_type)
-        value: (primitive_type))
+        key: (type_identifier
+          (identifier))
+        value: (type_identifier
+          (identifier)))
       declarator: (identifier))))
 
 ================================================================================
@@ -185,37 +201,46 @@ class Default {
       (identifier))
     (field_declaration
       type: (array_type
-        element: (primitive_type))
+        element: (type_identifier
+          (identifier)))
       declarator: (identifier
         (identifier)))
     (field_declaration
       type: (map_type
-        key: (primitive_type)
-        value: (primitive_type))
+        key: (type_identifier
+          (identifier))
+        value: (type_identifier
+          (identifier)))
       declarator: (identifier
         (identifier)))
     (field_declaration
       type: (mapiterator_type
-        key: (primitive_type)
-        value: (primitive_type))
+        key: (type_identifier
+          (identifier))
+        value: (type_identifier
+          (identifier)))
       declarator: (identifier
         (identifier)))
     (field_declaration
       type: (sized_type_specifier)
       declarator: (identifier))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier
         (identifier)))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier
         (identifier)))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier
         (identifier)))
     (field_declaration
-      type: (primitive_type)
+      type: (type_identifier
+        (identifier))
       declarator: (identifier
         (identifier)))))
