@@ -597,14 +597,6 @@
           {
             "type": "expression",
             "named": true
-          },
-          {
-            "type": "primitive_type",
-            "named": true
-          },
-          {
-            "type": "sized_type_specifier",
-            "named": true
           }
         ]
       }
@@ -1300,14 +1292,6 @@
         "types": [
           {
             "type": "expression",
-            "named": true
-          },
-          {
-            "type": "primitive_type",
-            "named": true
-          },
-          {
-            "type": "sized_type_specifier",
             "named": true
           }
         ]
@@ -2228,17 +2212,7 @@
   {
     "type": "primitive_type",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "primitive_type",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "property_assignment",
@@ -3622,10 +3596,6 @@
     "named": false
   },
   {
-    "type": "let",
-    "named": false
-  },
-  {
     "type": "light",
     "named": false
   },
@@ -3742,20 +3712,12 @@
     "named": false
   },
   {
-    "type": "spriteid",
-    "named": false
-  },
-  {
     "type": "state_frame_chars",
     "named": true
   },
   {
     "type": "state_sprite_frames",
     "named": true
-  },
-  {
-    "type": "statelabel",
-    "named": false
   },
   {
     "type": "states",
@@ -3783,10 +3745,6 @@
   },
   {
     "type": "switch",
-    "named": false
-  },
-  {
-    "type": "textureid",
     "named": false
   },
   {
@@ -3835,10 +3793,6 @@
   },
   {
     "type": "void",
-    "named": false
-  },
-  {
-    "type": "voidptr",
     "named": false
   },
   {

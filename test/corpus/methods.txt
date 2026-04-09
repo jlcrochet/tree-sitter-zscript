@@ -13,8 +13,7 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement))))
@@ -34,8 +33,7 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement))))
@@ -60,17 +58,15 @@ class Test : Actor {
     (method_definition
       (member_modifiers
         (member_modifier))
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list
         (parameter_declaration
-          type: (type_identifier
-            (identifier))
+          type: (primitive_type)
           declarator: (identifier)
           default: (number_literal))
         (parameter_declaration
-          type: (primitive_type)
+          type: (type_identifier)
           declarator: (identifier
             (identifier))
           default: (string_literal
@@ -93,8 +89,7 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -122,8 +117,7 @@ class Test : Actor {
     (method_definition
       (member_modifiers
         (member_modifier))
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -151,8 +145,7 @@ class Test {
     (method_definition
       (member_modifiers
         (member_modifier))
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement))))
@@ -175,21 +168,17 @@ class Math {
     (method_definition
       (member_modifiers
         (member_modifier))
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list
         (parameter_declaration
-          type: (type_identifier
-            (identifier))
+          type: (primitive_type)
           declarator: (identifier))
         (parameter_declaration
-          type: (type_identifier
-            (identifier))
+          type: (primitive_type)
           declarator: (identifier))
         (parameter_declaration
-          type: (type_identifier
-            (identifier))
+          type: (primitive_type)
           declarator: (identifier)))
       body: (compound_statement
         (return_statement
@@ -221,8 +210,7 @@ class Test {
       (member_modifiers
         (member_modifier)
         (member_modifier))
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -250,8 +238,7 @@ class Test : Actor {
     (method_definition
       (member_modifiers
         (member_modifier))
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -281,10 +268,8 @@ class Test {
       (member_modifiers
         (member_modifier))
       type: (multi_return_type
-        (type_identifier
-          (identifier))
-        (type_identifier
-          (identifier)))
+        (primitive_type)
+        (primitive_type))
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -311,19 +296,16 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier
         (identifier))
       parameters: (parameter_list
         (parameter_declaration
-          type: (type_identifier
-            (identifier))
+          type: (primitive_type)
           declarator: (identifier
             (identifier)))
         (parameter_declaration
-          type: (type_identifier
-            (identifier))
+          type: (primitive_type)
           declarator: (identifier
             (identifier))))
       body: (compound_statement

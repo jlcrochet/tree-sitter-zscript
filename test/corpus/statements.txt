@@ -16,8 +16,7 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -51,8 +50,7 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -90,8 +88,7 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -122,8 +119,7 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -154,15 +150,13 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
         (for_statement
           initializer: (declaration
-            type: (type_identifier
-              (identifier))
+            type: (primitive_type)
             declarator: (init_declarator
               declarator: (identifier)
               value: (number_literal)))
@@ -196,8 +190,7 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -228,8 +221,7 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -268,8 +260,7 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -315,8 +306,7 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -346,8 +336,7 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
@@ -373,15 +362,13 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
         (for_statement
           initializer: (declaration
-            type: (type_identifier
-              (identifier))
+            type: (primitive_type)
             declarator: (init_declarator
               declarator: (identifier)
               value: (number_literal)))
@@ -418,8 +405,7 @@ class Test {
   (class_definition
     name: (type_identifier)
     (method_definition
-      type: (type_identifier
-        (identifier))
+      type: (primitive_type)
       name: (identifier)
       parameters: (parameter_list)
       body: (compound_statement
