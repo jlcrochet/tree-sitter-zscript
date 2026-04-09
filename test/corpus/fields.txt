@@ -212,3 +212,54 @@ class Test {
         (number_literal)
         (number_literal)
         (number_literal)))))
+
+================================================================================
+Initialized array declaration with brackets after type
+================================================================================
+
+class Test {
+    static const int[] Values = { 1, 2, 3 };
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (static_const_array
+      type: (primitive_type)
+      name: (identifier)
+      (initializer_list
+        (number_literal)
+        (number_literal)
+        (number_literal)))))
+
+================================================================================
+Struct members can include flagdefs and static const arrays
+================================================================================
+
+struct Test {
+    flagdef InternalFlag : Flags, 0;
+    static const int[] Values = { 1 };
+    static const int Other[] = { 2 };
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (struct_definition
+    name: (type_identifier)
+    (flag_definition
+      name: (identifier)
+      field: (identifier)
+      bit: (number_literal))
+    (static_const_array
+      type: (primitive_type)
+      name: (identifier)
+      (initializer_list
+        (number_literal)))
+    (static_const_array
+      type: (primitive_type)
+      name: (identifier)
+      (initializer_list
+        (number_literal)))))

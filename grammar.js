@@ -65,6 +65,8 @@ const SHADOWABLE_IDENTIFIER_WORDS = SHADOWABLE_WORDS.map(({word}) => word);
 const SHADOWABLE_PRIMITIVE_TYPE_WORDS = SHADOWABLE_WORDS
   .filter(({primitive_type}) => primitive_type)
   .map(({word}) => word);
+const SPECIAL_PRIMITIVE_TYPE_WORDS = ['statelabel', 'spriteid', 'textureid', 'voidptr', 'let'];
+const ENUM_INTEGER_TYPE_WORDS = ['sbyte', 'byte', 'short', 'ushort', 'int', 'uint'];
 
 const RESERVED_WORDS = [
   ...SHADOWABLE_IDENTIFIER_WORDS,
@@ -141,21 +143,56 @@ const RESERVED_WORDS = [
 ];
 
 const STATE_FLOW_WORDS = ['goto', 'stop', 'wait', 'fail', 'loop'];
+const SIMPLE_STATE_FLOW_WORDS = STATE_FLOW_WORDS.filter(word => word !== 'goto');
 const SHADOWABLE_IDENTIFIER_WORD_SET = new Set(SHADOWABLE_IDENTIFIER_WORDS);
 const STATE_FLOW_WORD_SET = new Set(STATE_FLOW_WORDS);
 const STATE_LABEL_KEYWORD_WORDS = RESERVED_WORDS.filter(
   word => !SHADOWABLE_IDENTIFIER_WORD_SET.has(word) && !STATE_FLOW_WORD_SET.has(word)
 );
+const STATE_SPRITE_NAME_CHARS = [...'abcdefghijklmnopqrstuvwxyz0123456789_'];
+const NON_FLOW_STATE_SPRITE_NAME_PATTERNS = buildExcludedWordPatterns(
+  STATE_FLOW_WORDS,
+  STATE_SPRITE_NAME_CHARS,
+);
+
+const CLASS_FLAG_WORDS = ['abstract', 'final', 'native', 'ui', 'play'];
+const STRUCT_FLAG_WORDS = ['ui', 'play', 'clearscope', 'native'];
+const MEMBER_MODIFIER_WORDS = [
+  'abstract',
+  'native',
+  'static',
+  'private',
+  'protected',
+  'latent',
+  'final',
+  'meta',
+  'transient',
+  'norollback',
+  'readonly',
+  'internal',
+  'virtual',
+  'override',
+  'vararg',
+  'ui',
+  'play',
+  'clearscope',
+  'virtualscope',
+];
+const FUNCTION_SCOPE_WORDS = ['ui', 'play', 'clearscope'];
+const PARAMETER_MODIFIER_WORDS = ['in', 'out'];
 
 const NON_RESERVED_IDENTIFIER_PATTERN = buildIdentifierPattern(RESERVED_WORDS);
 
 module.exports = grammar({
   name: "zscript",
 
+  externals: $ => [
+    $._extend_class_to_eof_guard,
+  ],
+
   conflicts: $ => [
     [$.type_specifier, $.expression],
     [$.field_declaration, $._return_type],
-    [$._return_type, $._global_declaration],
     [$.primitive_type, $._shadowable_identifier],
     [$.vector_literal],
     [$.return_value_list, $.vector_literal],
@@ -184,7 +221,11 @@ module.exports = grammar({
   word: $ => $._word_identifier,
 
   rules: {
-    source_file: $ => repeat($._top_level_item),
+    source_file: $ => seq(
+      optional($.version_directive),
+      repeat($._top_level_item),
+      optional(alias($._eof_class_definition, $.class_definition)),
+    ),
 
     _top_level_item: $ => choice(
       $.class_definition,
@@ -192,9 +233,6 @@ module.exports = grammar({
       $.enum_definition,
       $.const_definition,
       $.include_directive,
-      $.version_directive,
-      $.function_definition,
-      alias($._global_declaration, $.declaration),
     ),
 
     // =========================================================================
@@ -216,14 +254,22 @@ module.exports = grammar({
     // =========================================================================
 
     class_definition: $ => prec(1, seq(
-      optional($.class_modifier),
-      keyword('class'),
-      field('name', $._type_identifier),
-      optional($.inheritance_specifier),
-      optional($.class_flags),
+      classHeader($, optional($.class_modifier)),
       '{',
       repeat($._class_body_item),
       '}',
+    )),
+
+    _eof_class_definition: $ => prec(1, seq(
+      choice(
+        classHeader($),
+        classHeader($, seq(
+          alias(keyword('extend'), $.class_modifier),
+          $._extend_class_to_eof_guard,
+        )),
+      ),
+      ';',
+      repeat($._class_body_item),
     )),
 
     class_modifier: _ => choice(
@@ -239,11 +285,7 @@ module.exports = grammar({
     class_flags: $ => repeat1($.class_flag),
 
     class_flag: $ => choice(
-      keyword('abstract'),
-      keyword('final'),
-      keyword('native'),
-      keyword('ui'),
-      keyword('play'),
+      ...keywordRules(CLASS_FLAG_WORDS),
       seq(keyword('replaces'), $._dottable_type_identifier),
       seq(keyword('sealed'), '(', commaSep1($.identifier), ')'),
       $._version_modifier,
@@ -254,24 +296,15 @@ module.exports = grammar({
     // Struct definition
     // =========================================================================
 
-    struct_definition: $ => seq(
-      optional(keyword('extend')),
-      keyword('struct'),
-      field('name', $._type_identifier),
-      optional($.struct_flags),
-      '{',
-      repeat($._struct_body_item),
-      '}',
-      optional(';'),
+    struct_definition: $ => choice(
+      structDefinition($),
+      structDefinition($, keyword('extend')),
     ),
 
     struct_flags: $ => repeat1($.struct_flag),
 
     struct_flag: $ => choice(
-      keyword('ui'),
-      keyword('play'),
-      keyword('clearscope'),
-      keyword('native'),
+      ...keywordRules(STRUCT_FLAG_WORDS),
       $._unsafe_internal_modifier,
       $._version_modifier,
       $._deprecated_modifier,
@@ -280,8 +313,10 @@ module.exports = grammar({
     _struct_body_item: $ => choice(
       $.method_definition,
       $.field_declaration,
+      $.flag_definition,
       $.const_definition,
       $.enum_definition,
+      $.static_const_array,
     ),
 
     // =========================================================================
@@ -300,8 +335,10 @@ module.exports = grammar({
 
     enum_base_type: $ => seq(
       ':',
-      $.type_specifier,
+      alias($._enum_integer_type, $.primitive_type),
     ),
+
+    _enum_integer_type: _ => choice(...wordTokens(ENUM_INTEGER_TYPE_WORDS)),
 
     enumerator_list: $ => seq(
       $.enumerator,
@@ -355,26 +392,8 @@ module.exports = grammar({
     member_modifiers: $ => prec.left(repeat1($.member_modifier)),
 
     member_modifier: $ => choice(
-      keyword('abstract'),
-      keyword('native'),
-      keyword('static'),
-      keyword('private'),
-      keyword('protected'),
-      keyword('latent'),
-      keyword('final'),
-      keyword('meta'),
-      keyword('transient'),
-      keyword('norollback'),
-      keyword('readonly'),
-      keyword('internal'),
-      keyword('virtual'),
-      keyword('override'),
-      keyword('vararg'),
-      keyword('ui'),
-      keyword('play'),
-      keyword('clearscope'),
+      ...keywordRules(MEMBER_MODIFIER_WORDS),
       $._unsafe_clearscope_modifier,
-      keyword('virtualscope'),
       seq(keyword('action'), optional($.states_options)),
       $._version_modifier,
       $._deprecated_modifier,
@@ -477,9 +496,10 @@ module.exports = grammar({
       keyword('static'),
       keyword('const'),
       field('type', $.type_specifier),
-      field('name', $.identifier),
-      '[',
-      ']',
+      choice(
+        seq(field('name', $.identifier), '[', ']'),
+        seq('[', ']', field('name', $.identifier)),
+      ),
       '=',
       $.initializer_list,
       ';',
@@ -597,24 +617,9 @@ module.exports = grammar({
     state_sprite_frames: _ => token(prec(1, seq(
       choice(
         /####/,
-        // Exclude the exact unquoted state-flow spellings so `Goto Ready;`
-        // and similar lines parse as flow control instead of sprite/frame pairs.
-        /[A-EH-KM-RT-VX-Za-eh-km-rt-vx-z0-9_][A-Za-z0-9_]{3}/,
-        /[Gg][^Oo][A-Za-z0-9_]{2}/,
-        /[Gg][Oo][^Tt][A-Za-z0-9_]/,
-        /[Gg][Oo][Tt][^Oo]/,
-        /[Ss][^Tt][A-Za-z0-9_]{2}/,
-        /[Ss][Tt][^Oo][A-Za-z0-9_]/,
-        /[Ss][Tt][Oo][^Pp]/,
-        /[Ww][^Aa][A-Za-z0-9_]{2}/,
-        /[Ww][Aa][^Ii][A-Za-z0-9_]/,
-        /[Ww][Aa][Ii][^Tt]/,
-        /[Ff][^Aa][A-Za-z0-9_]{2}/,
-        /[Ff][Aa][^Ii][A-Za-z0-9_]/,
-        /[Ff][Aa][Ii][^Ll]/,
-        /[Ll][^Oo][A-Za-z0-9_]{2}/,
-        /[Ll][Oo][^Oo][A-Za-z0-9_]/,
-        /[Ll][Oo][Oo][^Pp]/,
+        // Exclude exact unquoted state-flow spellings like `Goto Ready;`
+        // so they stay on the flow-control path instead of becoming sprite/frame pairs.
+        ...NON_FLOW_STATE_SPRITE_NAME_PATTERNS,
       ),
       /[ \t]+/,
       /[A-Za-z0-9\[\]\\#]+/,
@@ -655,10 +660,7 @@ module.exports = grammar({
     ),
 
     state_flow: $ => choice(
-      seq(keyword('loop'), ';'),
-      seq(keyword('stop'), ';'),
-      seq(keyword('wait'), ';'),
-      seq(keyword('fail'), ';'),
+      ...SIMPLE_STATE_FLOW_WORDS.map(word => seq(keyword(word), ';')),
       $.goto_state_flow,
     ),
 
@@ -682,36 +684,6 @@ module.exports = grammar({
     ),
 
     // =========================================================================
-    // Function definition (outside class)
-    // =========================================================================
-
-    function_definition: $ => seq(
-      optional($.member_modifiers),
-      field('type', $._return_type),
-      field('declarator', $.function_declarator),
-      optional($.const_qualifier),
-      field('body', $.compound_statement),
-    ),
-
-    // =========================================================================
-    // Global declarations
-    // =========================================================================
-
-    _global_declaration: $ => choice(
-      seq(
-        optional($.member_modifiers),
-        field('type', $._return_type),
-        field('declarator', $.function_declarator),
-        optional($.const_qualifier),
-        ';',
-      ),
-      seq(
-        optional($.member_modifiers),
-        typedDeclaratorList($.type_specifier, $._variable_declarator),
-      ),
-    ),
-
-    // =========================================================================
     // Type specifiers
     // =========================================================================
 
@@ -723,17 +695,13 @@ module.exports = grammar({
       $.map_type,
       $.mapiterator_type,
       $.function_type,
-      $._type_identifier,
+      referenceTypeIdentifier($),
       $.readonly_type,
     ),
 
     primitive_type: _ => choice(
-      ...SHADOWABLE_PRIMITIVE_TYPE_WORDS.map(word => token(prec(-1, wordPattern(word)))),
-      token(prec(-1, wordPattern('statelabel'))),
-      token(prec(-1, wordPattern('spriteid'))),
-      token(prec(-1, wordPattern('textureid'))),
-      token(prec(-1, wordPattern('voidptr'))),
-      token(prec(-1, wordPattern('let'))),
+      ...wordTokens(SHADOWABLE_PRIMITIVE_TYPE_WORDS),
+      ...wordTokens(SPECIAL_PRIMITIVE_TYPE_WORDS),
     ),
 
     sized_type_specifier: $ => prec.right(seq(
@@ -778,7 +746,7 @@ module.exports = grammar({
     readonly_type: $ => seq(
       keyword('readonly'),
       '<',
-      field('type', $.type_specifier),
+      field('type', referenceTypeIdentifier($)),
       '>',
     ),
 
@@ -799,11 +767,7 @@ module.exports = grammar({
       '>',
     ),
 
-    function_scope: _ => choice(
-      keyword('ui'),
-      keyword('play'),
-      keyword('clearscope'),
-    ),
+    function_scope: _ => choice(...keywordRules(FUNCTION_SCOPE_WORDS)),
 
     function_type_parameter: $ => seq(
       optional($.function_parameter_modifiers),
@@ -811,10 +775,7 @@ module.exports = grammar({
       optional('&'),
     ),
 
-    function_parameter_modifiers: $ => repeat1(choice(
-      keyword('in'),
-      keyword('out'),
-    )),
+    function_parameter_modifiers: $ => repeat1(choice(...keywordRules(PARAMETER_MODIFIER_WORDS))),
 
     // =========================================================================
     // Declarators
@@ -887,10 +848,7 @@ module.exports = grammar({
 
     parameter_modifiers: $ => prec.left(repeat1($.parameter_modifier)),
 
-    parameter_modifier: _ => choice(
-      keyword('in'),
-      keyword('out'),
-    ),
+    parameter_modifier: _ => choice(...keywordRules(PARAMETER_MODIFIER_WORDS)),
 
     // =========================================================================
     // Statements
@@ -1046,7 +1004,25 @@ module.exports = grammar({
     foreach_statement: $ => seq(
       keyword('foreach'),
       '(',
-      field('variable', $.identifier),
+      choice(
+        seq(
+          field('type', $._type_identifier),
+          field('variable', $.identifier),
+        ),
+        field('variable', $.identifier),
+        seq(
+          field('variable', $.identifier),
+          ',',
+          field('variable', $.identifier),
+        ),
+        seq(
+          field('variable', $.identifier),
+          ',',
+          field('variable', $.identifier),
+          ',',
+          field('variable', $.identifier),
+        ),
+      ),
       ':',
       field('collection', $.expression),
       ')',
@@ -1441,6 +1417,9 @@ module.exports = grammar({
       repeat(seq('.', $._dottable_identifier)),
     ),
 
+    _native_type_identifier: $ => seq('@', $.identifier),
+    _escaped_type_identifier: $ => seq('.', $.dottable_name),
+
     _dottable_type_identifier: $ => alias($.dottable_name, $.type_identifier),
 
     _type_identifier: $ => alias($.identifier, $.type_identifier),
@@ -1500,6 +1479,18 @@ function keywordIdentifier($, word) {
   return alias(token(prec(-1, wordPattern(word))), $.identifier)
 }
 
+function wordToken(word, precedence = -1) {
+  return token(prec(precedence, wordPattern(word)));
+}
+
+function wordTokens(words, precedence = -1) {
+  return words.map(word => wordToken(word, precedence));
+}
+
+function keywordRules(words) {
+  return words.map(word => keyword(word));
+}
+
 /**
  * Creates a case-insensitive word pattern.
  * @param {string} word
@@ -1549,6 +1540,55 @@ function twoSegmentDottableName($) {
     $._dottable_identifier,
     optional(seq('.', $._dottable_identifier)),
   );
+}
+
+function referenceTypeIdentifier($) {
+  return choice(
+    $._type_identifier,
+    alias($._native_type_identifier, $.type_identifier),
+    alias($._escaped_type_identifier, $.type_identifier),
+  );
+}
+
+function classHeader($, modifierRule = null) {
+  return seq(
+    ...(modifierRule ? [modifierRule] : []),
+    keyword('class'),
+    field('name', $._type_identifier),
+    optional($.inheritance_specifier),
+    optional($.class_flags),
+  );
+}
+
+function structDefinition($, modifierRule = null) {
+  return seq(
+    ...(modifierRule ? [modifierRule] : []),
+    keyword('struct'),
+    field('name', $._type_identifier),
+    optional($.struct_flags),
+    '{',
+    repeat($._struct_body_item),
+    '}',
+    optional(';'),
+  );
+}
+
+function buildExcludedWordPatterns(words, alphabet) {
+  return words.flatMap(word =>
+    buildExcludedWordPattern(word.toLowerCase(), alphabet).map(pattern => new RegExp(pattern, 'i'))
+  );
+}
+
+function buildExcludedWordPattern(word, alphabet) {
+  return [...word].map((char, index) => `${word.slice(0, index)}${charClass(subtractChars(alphabet, [char]))}${repeatCharClass(alphabet, word.length - index - 1)}`);
+}
+
+function repeatCharClass(chars, count) {
+  if (count === 0)
+    return '';
+
+  const pattern = charClass(chars);
+  return count === 1 ? pattern : `${pattern}{${count}}`;
 }
 
 function buildIdentifierPattern(reservedWords) {

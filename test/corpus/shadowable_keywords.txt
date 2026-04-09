@@ -236,10 +236,12 @@ enum Color {
     none,
 }
 
-void none(int default, int property, int none) {
-    Observe(default: default, property: property, none: none);
-    owner.default = default;
-    owner.none = none;
+class None {
+    void none(int default, int property, int none) {
+        Observe(default: default, property: property, none: none);
+        owner.default = default;
+        owner.none = none;
+    }
 }
 
 --------------------------------------------------------------------------------
@@ -276,10 +278,12 @@ void none(int default, int property, int none) {
       (enumerator
         name: (identifier
           (identifier)))))
-  (function_definition
-    type: (primitive_type)
-    declarator: (function_declarator
-      declarator: (identifier
+  (class_definition
+    name: (type_identifier
+      (identifier))
+    (method_definition
+      type: (primitive_type)
+      name: (identifier
         (identifier))
       parameters: (parameter_list
         (parameter_declaration
@@ -293,43 +297,43 @@ void none(int default, int property, int none) {
         (parameter_declaration
           type: (primitive_type)
           declarator: (identifier
-            (identifier)))))
-    body: (compound_statement
-      (expression_statement
-        (call_expression
-          function: (identifier)
-          arguments: (argument_list
-            (named_argument
-              name: (identifier
-                (identifier))
-              value: (identifier
-                (identifier)))
-            (named_argument
-              name: (identifier
-                (identifier))
-              value: (identifier
-                (identifier)))
-            (named_argument
-              name: (identifier
-                (identifier))
-              value: (identifier
-                (identifier))))))
-      (expression_statement
-        (assignment_expression
-          left: (field_expression
-            argument: (identifier)
-            field: (field_identifier
-              (identifier)))
-          right: (identifier
             (identifier))))
-      (expression_statement
-        (assignment_expression
-          left: (field_expression
-            argument: (identifier)
-            field: (field_identifier
-              (identifier)))
-          right: (identifier
-            (identifier)))))))
+      body: (compound_statement
+        (expression_statement
+          (call_expression
+            function: (identifier)
+            arguments: (argument_list
+              (named_argument
+                name: (identifier
+                  (identifier))
+                value: (identifier
+                  (identifier)))
+              (named_argument
+                name: (identifier
+                  (identifier))
+                value: (identifier
+                  (identifier)))
+              (named_argument
+                name: (identifier
+                  (identifier))
+                value: (identifier
+                  (identifier))))))
+        (expression_statement
+          (assignment_expression
+            left: (field_expression
+              argument: (identifier)
+              field: (field_identifier
+                (identifier)))
+            right: (identifier
+              (identifier))))
+        (expression_statement
+          (assignment_expression
+            left: (field_expression
+              argument: (identifier)
+              field: (field_identifier
+                (identifier)))
+            right: (identifier
+              (identifier))))))))
 
 ================================================================================
 Vector4 uses identifier-based type parsing
@@ -616,21 +620,18 @@ class T {
 (source_file
   (class_definition
     name: (type_identifier)
-    (field_declaration
-      type: (primitive_type)
-      declarator: (identifier)
-      (ERROR))
-    (field_declaration
-      type: (type_identifier
+    (ERROR
+      (field_declaration
+        type: (primitive_type)
+        declarator: (identifier)
+        (ERROR))
+      (type_identifier
         (identifier))
-      (ERROR
-        (identifier)
-        (identifier
-          (identifier)))
-      declarator: (identifier))
+      (identifier))
     (field_declaration
       type: (primitive_type)
-      declarator: (identifier)
+      declarator: (identifier
+        (identifier))
       (ERROR))
     (field_declaration
       type: (primitive_type)
@@ -675,7 +676,12 @@ class T {
     (field_declaration
       type: (primitive_type)
       declarator: (identifier)
-      (ERROR))))
+      (ERROR))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier)
+      (ERROR)))
+  (ERROR))
 
 ================================================================================
 Scanner-only keywords remain syntax errors

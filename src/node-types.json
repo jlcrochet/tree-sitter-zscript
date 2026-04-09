@@ -965,10 +965,6 @@
             "named": true
           },
           {
-            "type": "function_declarator",
-            "named": true
-          },
-          {
             "type": "identifier",
             "named": true
           },
@@ -983,10 +979,6 @@
         "required": false,
         "types": [
           {
-            "type": "multi_return_type",
-            "named": true
-          },
-          {
             "type": "type_specifier",
             "named": true
           }
@@ -994,19 +986,11 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
-          "type": "const_qualifier",
-          "named": true
-        },
-        {
           "type": "let_destructuring_declaration",
-          "named": true
-        },
-        {
-          "type": "member_modifiers",
           "named": true
         }
       ]
@@ -1146,7 +1130,7 @@
       "required": true,
       "types": [
         {
-          "type": "type_specifier",
+          "type": "primitive_type",
           "named": true
         }
       ]
@@ -1488,8 +1472,18 @@
           }
         ]
       },
-      "variable": {
+      "type": {
         "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      },
+      "variable": {
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -1524,60 +1518,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "function_definition",
-    "named": true,
-    "fields": {
-      "body": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "compound_statement",
-            "named": true
-          }
-        ]
-      },
-      "declarator": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "function_declarator",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "multi_return_type",
-            "named": true
-          },
-          {
-            "type": "type_specifier",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "const_qualifier",
-          "named": true
-        },
-        {
-          "type": "member_modifiers",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2365,7 +2305,7 @@
         "required": true,
         "types": [
           {
-            "type": "type_specifier",
+            "type": "type_identifier",
             "named": true
           }
         ]
@@ -2465,15 +2405,7 @@
           "named": true
         },
         {
-          "type": "declaration",
-          "named": true
-        },
-        {
           "type": "enum_definition",
-          "named": true
-        },
-        {
-          "type": "function_definition",
           "named": true
         },
         {
@@ -2877,7 +2809,15 @@
           "named": true
         },
         {
+          "type": "flag_definition",
+          "named": true
+        },
+        {
           "type": "method_definition",
+          "named": true
+        },
+        {
+          "type": "static_const_array",
           "named": true
         },
         {
@@ -3057,6 +2997,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "dottable_name",
+          "named": true
+        },
         {
           "type": "identifier",
           "named": true
@@ -3420,6 +3364,10 @@
   },
   {
     "type": "?",
+    "named": false
+  },
+  {
+    "type": "@",
     "named": false
   },
   {

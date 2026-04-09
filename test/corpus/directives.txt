@@ -28,7 +28,7 @@ version "4.10"
 Multiple directives
 ================================================================================
 
-version "4.10"
+version "4.15.1"
 #include "base.zs"
 #include "actors.zs"
 
@@ -49,3 +49,52 @@ class Test {
       (string_content)))
   (class_definition
     name: (type_identifier)))
+
+================================================================================
+Misplaced file-level version directive
+================================================================================
+
+class Test {
+}
+version "4.15.1"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (ERROR
+    (class_definition
+      name: (type_identifier)))
+  (version_directive
+    version: (string_literal
+      (string_content))))
+
+================================================================================
+Repeated file-level version directive
+================================================================================
+
+version "4.15.1"
+version "4.16.0"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (ERROR
+    (version_directive
+      version: (string_literal
+        (string_content))))
+  (version_directive
+    version: (string_literal
+      (string_content))))
+
+================================================================================
+Top-level ordinary declarators are syntax errors
+================================================================================
+
+int x;
+void Foo() {
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (ERROR))

@@ -65,7 +65,7 @@ struct Data ui play clearscope native unsafe(internal) version("4.12") deprecate
       declarator: (identifier))))
 
 ================================================================================
-Shared declarator modifiers stay on member and global declarators only
+Shared declarator modifiers stay on member declarators only
 ================================================================================
 
 class Test : Actor {
@@ -78,10 +78,6 @@ class Test : Actor {
     }
 
     flagdef internal InternalFlag : Flags, 1;
-}
-
-deprecated("4.13", "Use GlobalUse") override int GlobalField;
-abstract void GlobalUse() const {
 }
 
 --------------------------------------------------------------------------------
@@ -136,26 +132,7 @@ abstract void GlobalUse() const {
     (flag_definition
       name: (identifier)
       field: (identifier)
-      bit: (number_literal)))
-  (declaration
-    (member_modifiers
-      (member_modifier
-        (string_literal
-          (string_content))
-        (string_literal
-          (string_content)))
-      (member_modifier))
-    type: (primitive_type)
-    declarator: (identifier))
-  (function_definition
-    (member_modifiers
-      (member_modifier))
-    type: (primitive_type)
-    declarator: (function_declarator
-      declarator: (identifier)
-      parameters: (parameter_list))
-    (const_qualifier)
-    body: (compound_statement)))
+      bit: (number_literal))))
 
 ================================================================================
 Unsupported class header modifier is a syntax error

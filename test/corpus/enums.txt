@@ -112,6 +112,25 @@ class Test {
           name: (identifier))))))
 
 ================================================================================
+Enum with explicit integer base type
+================================================================================
+
+enum Small : int {
+    A
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (enum_definition
+    name: (type_identifier)
+    (enum_base_type
+      (primitive_type))
+    (enumerator_list
+      (enumerator
+        name: (identifier)))))
+
+================================================================================
 Const definition
 ================================================================================
 
@@ -140,3 +159,21 @@ class Test {
     (const_definition
       name: (identifier)
       value: (number_literal))))
+
+================================================================================
+Enum base type rejects non-integer type syntax
+================================================================================
+
+enum Bad : class<Actor> {
+    A
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (enum_definition
+    name: (type_identifier)
+    (ERROR)
+    (enumerator_list
+      (enumerator
+        name: (identifier)))))

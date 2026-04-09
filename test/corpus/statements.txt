@@ -297,6 +297,9 @@ class Test {
         foreach (item : items) {
             ProcessItem(item);
         }
+        foreach (key, value : items) ;
+        foreach (thing, pos, flags : items) ;
+        foreach (Actor actor : items) ;
     }
 }
 
@@ -318,7 +321,23 @@ class Test {
               (call_expression
                 function: (identifier)
                 arguments: (argument_list
-                  (identifier))))))))))
+                  (identifier))))))
+        (foreach_statement
+          variable: (identifier)
+          variable: (identifier)
+          collection: (identifier)
+          body: (expression_statement))
+        (foreach_statement
+          variable: (identifier)
+          variable: (identifier)
+          variable: (identifier)
+          collection: (identifier)
+          body: (expression_statement))
+        (foreach_statement
+          type: (type_identifier)
+          variable: (identifier)
+          collection: (identifier)
+          body: (expression_statement))))))
 
 ================================================================================
 Return statement

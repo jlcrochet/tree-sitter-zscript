@@ -142,6 +142,37 @@ class Test {
       declarator: (identifier))))
 
 ================================================================================
+Native and escaped type references
+================================================================================
+
+class Test {
+    @secplane floor;
+    readonly<@secplane> ceiling;
+    .Foo.Bar escaped;
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      type: (type_identifier
+        (identifier))
+      declarator: (identifier))
+    (field_declaration
+      type: (readonly_type
+        type: (type_identifier
+          (identifier)))
+      declarator: (identifier))
+    (field_declaration
+      type: (type_identifier
+        (dottable_name
+          (identifier)
+          (identifier)))
+      declarator: (identifier))))
+
+================================================================================
 User defined type
 ================================================================================
 
@@ -219,3 +250,14 @@ class Default {
       type: (primitive_type)
       declarator: (identifier
         (identifier)))))
+
+================================================================================
+Readonly type rejects primitive type arguments
+================================================================================
+
+readonly<int> x;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (ERROR))

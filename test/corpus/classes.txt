@@ -108,3 +108,91 @@ class MyZombie : Actor replaces Zombieman {
       (class_flag
         (type_identifier
           (identifier))))))
+
+================================================================================
+Semicolon-body class definition
+================================================================================
+
+class Foo;
+int x;
+void Bar() {
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    name: (type_identifier)
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))
+    (method_definition
+      type: (primitive_type)
+      name: (identifier)
+      parameters: (parameter_list)
+      body: (compound_statement))))
+
+================================================================================
+Semicolon-body extend class definition
+================================================================================
+
+extend class Foo;
+int x;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    (class_modifier)
+    name: (type_identifier)
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))))
+
+================================================================================
+Semicolon-body extend class definition with comments and flags
+================================================================================
+
+extend
+/* split modifier and header */
+class Foo version("4.8.2") sealed(Bar, Baz);
+int x;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    (class_modifier)
+    (comment)
+    name: (type_identifier)
+    (class_flags
+      (class_flag
+        (string_literal
+          (string_content)))
+      (class_flag
+        (identifier)
+        (identifier)))
+    (field_declaration
+      type: (primitive_type)
+      declarator: (identifier))))
+
+================================================================================
+Braced extend class definition with comments and flags
+================================================================================
+
+extend
+// keep this on the braced path
+class Foo version("4.8.2") {
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (class_definition
+    (class_modifier)
+    (comment)
+    name: (type_identifier)
+    (class_flags
+      (class_flag
+        (string_literal
+          (string_content))))))
